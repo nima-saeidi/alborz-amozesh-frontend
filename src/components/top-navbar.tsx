@@ -9,6 +9,7 @@ import {AnimatePresence, motion} from "motion/react";
 import {cn} from "@/lib/utils"
 import {ReactNode, useState} from "react";
 import Link from "next/link";
+import {usePathname} from 'next/navigation'
 
 interface CardForCoursesProps {
     onMouseEnter?: () => void,
@@ -103,7 +104,9 @@ function CourseInfoBanner({children}: CourseInfoBannerProps) {
                     </div>
                 </div>
                 <div className="flex ml-[30px] mb-[30px] self-start">
-                    <Link className="w-[220px] h-[70px] flex justify-center items-center  text-xl bg-black text-white font-bold hover:bg-white hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]" href="#">شروع یادگیری</Link>
+                    <Link
+                        className="w-[220px] h-[70px] flex justify-center items-center  text-xl bg-black text-white font-bold hover:bg-white hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]"
+                        href="#">شروع یادگیری</Link>
                 </div>
             </div>
         </motion.div>
@@ -135,31 +138,36 @@ function PopoverInnerContent() {
 
 export default function TopNavbar() {
     const [isOpen, setIsOpen] = useState(false);
+
     return (
         <div className="flex justify-between items-center h-[100px] w-full">
             <div className="w-[265px] h-full flex justify-center items-center">
-                <Link className="m-5 h-[60px] w-[225px] flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]" href="/auth">ورود / عضویت</Link>
+                <Link
+                    className="m-5 h-[60px] w-[225px] flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]"
+                    href="/auth"
+                >
+                    ورود / عضویت
+                </Link>
             </div>
-            <div className="w-[265px] h-fit  flex justify-center items-center">
+
+            <div className="w-[265px] h-fit flex justify-center items-center">
                 <Popover open={isOpen} onOpenChange={setIsOpen}>
                     <PopoverTrigger asChild>
-                        <div className="flex flex-col w-full justify-center items-center cursor-pointer"
-                             onClick={() => setIsOpen(!isOpen)}>
+                        <div
+                            className="flex flex-col w-full justify-center items-center cursor-pointer"
+                            onClick={() => setIsOpen(!isOpen)}
+                        >
                             <h1 className="select-none">دوره های آموزشی</h1>
-                            {isOpen ? (
-                                    <ChevronUp/>
-                                ) :
-                                <ChevronDown/>
-                            }
+                            {isOpen ? <ChevronUp /> : <ChevronDown />}
                         </div>
                     </PopoverTrigger>
                     <PopoverContent className="w-[1158px] h-[600px] bg-white/50 backdrop-blur-2xl">
-                        <PopoverInnerContent/>
+                        <PopoverInnerContent />
                     </PopoverContent>
                 </Popover>
-
             </div>
-            <div className="w-[265px] h-fit ">
+
+            <div className="w-[265px] h-fit">
                 <Button className="m-5 h-[60px] w-[225px]">LOGO</Button>
             </div>
         </div>
