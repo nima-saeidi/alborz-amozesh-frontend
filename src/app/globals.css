@@ -120,3 +120,17 @@
     @apply bg-background text-foreground;
   }
 }
+@keyframes stripes {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 40px 0;
+    }
+}
+
+@layer utilities {
+    .animate-stripes {
+        animation: stripes 1s linear infinite;
+    }
+}
