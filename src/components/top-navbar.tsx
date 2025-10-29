@@ -19,10 +19,9 @@ interface CardForCoursesProps {
 function CardForCourses({onMouseEnter, active}: CardForCoursesProps) {
     return (
         <div onMouseEnter={onMouseEnter}
-             className={cn("w-[380px] h-[120px] hover:bg-black/80 hover:text-white hover:border-gray-800 duration-150 border-gray-500 border rounded-[10px] flex justify-center items-center cursor-pointer", active && "bg-black/80 text-white")}>
-            <div className="w-[350px] h-[90px] flex flex-col gap-[10px]">
+             className={cn("w-full h-[120px] hover:bg-black/80 hover:text-white hover:border-gray-800 duration-150 border-gray-500 border rounded-[10px] flex justify-center items-center cursor-pointer", active && "bg-black/80 text-white")}>
+            <div className="w-full mx-5 h-[90px] flex flex-col gap-[10px]">
                 <div className="w-full h-[52px] flex justify-between">
-
                     <div className="w-[52px] h-[52px] flex justify-center items-center">
                         <HugeiconsIcon
                             icon={ArrowLeft01Icon}
@@ -31,10 +30,9 @@ function CardForCourses({onMouseEnter, active}: CardForCoursesProps) {
                             strokeWidth={1.5}
                         />
                     </div>
-
                     <div className="h-full  flex gap-[20px] justify-end">
-                        <div className="h-full flex items-center font-semibold text-[20px] select-none">دوره های
-                            آموزشی
+                        <div className="h-full flex items-center font-semibold text-[18px] lg:text-[20px] select-none">
+                            دوره های آموزشی
                         </div>
                         <div className="w-[52px] h-full flex justify-center items-center ">
                             <HugeiconsIcon
@@ -45,9 +43,8 @@ function CardForCourses({onMouseEnter, active}: CardForCoursesProps) {
                             />
                         </div>
                     </div>
-
                 </div>
-                <div className="w-[350px] h-[28px] flex justify-end select-none">
+                <div className="w-full text-[14px] lg:text-[16px] h-[28px] flex justify-end select-none">
                     ورود به دنیای حرفه ای تکنولوژی
                 </div>
             </div>
@@ -69,7 +66,7 @@ const modalVariants = {
 function CourseInfoBanner({children}: CourseInfoBannerProps) {
     return (
         <motion.div
-            className="w-[648px] h-[570px] rounded-[10px]"
+            className="w-[548px] h-[570px] rounded-[10px]"
             variants={modalVariants}
             initial="hidden"
             animate="visible"
@@ -117,15 +114,17 @@ function PopoverInnerContent() {
     const [show, setShow] = useState(1);
 
     return (
-        <div className="w-full h-full flex justify-between items-center">
-            <AnimatePresence mode="wait">
-                {show === 1 && <CourseInfoBanner key="1">Content 1</CourseInfoBanner>}
-                {show === 2 && <CourseInfoBanner key="2">Content 2</CourseInfoBanner>}
-                {show === 3 && <CourseInfoBanner key="3">Content 3</CourseInfoBanner>}
-                {show === 4 && <CourseInfoBanner key="4">Content 4</CourseInfoBanner>}
-            </AnimatePresence>
-            <span className="w-[1px] h-[340px] bg-black/20"></span>
-            <div className="w-[380px] h-[570px] rounded-[10px] flex flex-col gap-[30px]">
+        <div className="w-full h-full flex justify-center lg:justify-between items-center">
+            <div className="hidden lg:block">
+                <AnimatePresence mode="wait">
+                    {show === 1 && <CourseInfoBanner key="1">Content 1</CourseInfoBanner>}
+                    {show === 2 && <CourseInfoBanner key="2">Content 2</CourseInfoBanner>}
+                    {show === 3 && <CourseInfoBanner key="3">Content 3</CourseInfoBanner>}
+                    {show === 4 && <CourseInfoBanner key="4">Content 4</CourseInfoBanner>}
+                </AnimatePresence>
+            </div>
+            <span className="hidden lg:block w-[1px] h-[340px] bg-black/20"></span>
+            <div className="w-[300px] lg:w-[380px] h-[570px] rounded-[10px] flex flex-col gap-[30px]">
                 {/*Card component for course type*/}
                 <CardForCourses onMouseEnter={() => setShow(1)} active={show === 1}/>
                 <CardForCourses onMouseEnter={() => setShow(2)} active={show === 2}/>
@@ -141,9 +140,9 @@ export default function TopNavbar() {
 
     return (
         <div className="flex justify-between items-center h-[100px] w-full">
-            <div className="w-[265px] h-full flex justify-center items-center">
+            <div className="min-w-[100px] md:w-[235px] h-full flex justify-center items-center">
                 <Link
-                    className="m-5 h-[60px] w-[225px] flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]"
+                    className="m-5 h-[60px] w-full flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]"
                     href="/auth"
                 >
                     ورود / عضویت
@@ -161,14 +160,19 @@ export default function TopNavbar() {
                             {isOpen ? <ChevronUp /> : <ChevronDown />}
                         </div>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[1158px] h-[600px] bg-white/50 backdrop-blur-2xl">
+                    <PopoverContent className="w-[330px] lg:w-[1024px] h-[600px] bg-white/50 backdrop-blur-2xl">
                         <PopoverInnerContent />
                     </PopoverContent>
                 </Popover>
             </div>
 
-            <div className="w-[265px] h-fit">
-                <Button className="m-5 h-[60px] w-[225px]">LOGO</Button>
+            <div className="min-w-[100px] md:w-[235px]  h-full flex justify-center items-center">
+                <Link
+                    className="m-5 h-[60px] w-[225px] flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]"
+                    href="/auth"
+                >
+                    LOGO
+                </Link>
             </div>
         </div>
     );
