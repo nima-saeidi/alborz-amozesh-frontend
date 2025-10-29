@@ -1,5 +1,6 @@
 import Banner from "@/components/ui/banner";
 import CourseCard from "@/components/ui/course-card";
+import SearchBar from "@/components/ui/search-bar";
 
 export default function CoursePage() {
     return (
@@ -8,7 +9,7 @@ export default function CoursePage() {
             <div className="relative lg:mx-5 mt-[50px] overflow-hidden flex flex-col">
                 <div className="h-[50px] flex justify-between items-center border-b">
                     <div className="h-full">
-                        Search
+                        <SearchBar />
                     </div>
                     <div className="h-full flex flex-row-reverse gap">
                         <div className="w-[100px] border-b-4 border-black flex justify-center items-center">ویدیویی</div>
