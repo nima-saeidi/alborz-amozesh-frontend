@@ -1,15 +1,13 @@
 "use client"
 
-import {Button} from "@/components/ui/button";
 import {ChevronDown, ChevronUp} from 'lucide-react';
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {HugeiconsIcon} from '@hugeicons/react';
-import {ArrowLeft01Icon, AiProgrammingIcon, CheckmarkSquare02Icon} from '@hugeicons/core-free-icons';
+import {ArrowLeft01Icon, AiProgrammingIcon, CheckmarkSquare02Icon, UserSquareIcon, } from '@hugeicons/core-free-icons';
 import {AnimatePresence, motion} from "motion/react";
 import {cn} from "@/lib/utils"
 import {ReactNode, useState} from "react";
 import Link from "next/link";
-import {usePathname} from 'next/navigation'
 
 interface CardForCoursesProps {
     onMouseEnter?: () => void,
@@ -140,7 +138,7 @@ export default function TopNavbar() {
 
     return (
         <div className="flex justify-between items-center h-[100px] w-full">
-            <div className="min-w-[100px] md:w-[235px] h-full flex justify-center items-center">
+            <div className="hidden md:w-[200px] h-full md:flex justify-center items-center">
                 <Link
                     className="m-5 h-[60px] w-full flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]"
                     href="/auth"
@@ -148,8 +146,11 @@ export default function TopNavbar() {
                     ورود / عضویت
                 </Link>
             </div>
+            <div className="md:hidden h-full flex justify-center items-center m-5 ">
+                <HugeiconsIcon icon={UserSquareIcon} size={42}/>
+            </div>
 
-            <div className="w-[265px] h-fit flex justify-center items-center">
+            <div className="w-[150px] h-fit flex justify-center items-center">
                 <Popover open={isOpen} onOpenChange={setIsOpen}>
                     <PopoverTrigger asChild>
                         <div
@@ -166,10 +167,10 @@ export default function TopNavbar() {
                 </Popover>
             </div>
 
-            <div className="min-w-[100px] md:w-[235px]  h-full flex justify-center items-center">
+            <div className="w-[150px] h-full flex justify-center items-center">
                 <Link
                     className="m-5 h-[60px] w-[225px] flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]"
-                    href="/auth"
+                    href="#"
                 >
                     LOGO
                 </Link>
