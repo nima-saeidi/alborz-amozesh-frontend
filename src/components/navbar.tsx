@@ -7,6 +7,6 @@ import TopNavbar from "@/components/top-navbar";
 export default function Navbar() {
     const pathname = usePathname();
     return (
-        pathname === "/auth" || pathname === "/login" || pathname === "/signup" ? null : <TopNavbar/>
+        pathname === "/" || pathname === "/courses" || pathname === "/course"  ?  <TopNavbar/> : null
     )
 }

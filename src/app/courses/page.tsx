@@ -1,6 +1,15 @@
 import Banner from "@/components/ui/banner";
 import CourseCard from "@/components/ui/course-card";
 import SearchBar from "@/components/ui/search-bar";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export default function CoursePage() {
     return (
@@ -25,6 +34,30 @@ export default function CoursePage() {
                     <CourseCard/>
                     <CourseCard/>
                 </div>
+                <Pagination className="mb-[50px]">
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationNext href="#" />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">۳</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#" isActive>
+                                ۲
+                            </PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">۱</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationPrevious href="#" />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
             </div>
         </>
     );
