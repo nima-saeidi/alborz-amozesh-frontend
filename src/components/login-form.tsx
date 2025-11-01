@@ -65,7 +65,7 @@ export function LoginForm({
                                 <Button className="cursor-pointer" type="submit">ورود</Button>
                             </Field>
                             <FieldDescription className="text-center">
-                                حساب کاربری ندارید <a href="#">ساخت حساب کاربری</a>
+                                حساب کاربری ندارید <a href="/signup">ساخت حساب کاربری</a>
                             </FieldDescription>
                         </FieldGroup>
                     </form>
