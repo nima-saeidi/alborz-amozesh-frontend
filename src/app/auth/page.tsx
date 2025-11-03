@@ -21,47 +21,35 @@ export default function AuthPage() {
   return (
     <div className="bg-white  flex items-center justify-center overflow-hidden px-4">
       <div
-        className="flex flex-col justify-center items-center shadow-md "
-        style={{
-          width: "800px",
-          height: "430px",
-          top: "150px",
-          left: "305px",
-          bottom: "217px",
-          borderRadius: "10px",
-          background: "#F2F2F2",
-          transform: "rotate(0deg)",
-          opacity: 1,
-        }}
-      >
+  className="
+    flex flex-col justify-center items-center shadow-md 
+    w-[800px] h-[430px] 
+    top-[150px] left-[305px] bottom-[217px] 
+    rounded-[10px] 
+    bg-[#F2F2F2] 
+    rotate-0 
+    opacity-100
+  "
+>
+
+
         {/* لوگو */}
         <h1
-          className="text-center "
-          style={{
-            width: "96px",
-            height: "39px",
-            // position: "absolute",
+  className="
+    text-center 
+    w-[96px]  h-[39px] 
+    top-[113px] left-[511px] 
+    font-inter font-normal not-italic 
+    text-[32px] leading-[100%] tracking-[0%] 
+    text-black 
+    rotate-0 translate-y-[-35px] 
+    opacity-100 
+    flex items-center justify-center
+  "
+>
+  LOGO
+</h1>
 
-            top: "113px",
-            left: "511px",
-            fontFamily: "Inter, sans-serif",
-            fontWeight: 400,
-            fontStyle: "normal",
-            fontSize: "32px",
-            lineHeight: "100%",
-            letterSpacing: "0%",
-            textAlign: "center",
-            verticalAlign: "middle",
-            color: "#000000",
-            transform: "rotate(0deg) translateY(-35px)",
-            opacity: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          LOGO
-        </h1>
 
         {/* فرم */}
         <form
