@@ -18,22 +18,25 @@ const Syllabus = () => {
 
   return (
     <div className="w-full">
-      <h3 className="text-xl font-bold text-orange-600 mb-4 text-right">سرفصل‌ها</h3>
-      <div className="space-y-3 w-full">
+      <h3 className="text-2xl font-bold text-orange-600 mb-6 text-right relative after:content-[''] after:block after:w-24 after:h-[3px] after:bg-orange-400 after:rounded-full after:mt-1 after:ml-auto">
+        سرفصل‌ها
+      </h3>
+
+      <div className="space-y-4 w-full">
         {topics.map((title, i) => {
           const isOpen = openIndex === i;
           return (
             <div
               key={i}
-              className="bg-white rounded-lg overflow-hidden border border-gray-200 w-full shadow-sm"
+              className="bg-white/80 backdrop-blur-md border border-gray-200 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
             >
               <button
                 onClick={() => toggle(i)}
-                className="w-full flex justify-between items-center py-3 px-4 text-gray-800 font-semibold hover:bg-gray-100 transition"
+                className="w-full flex justify-between items-center py-4 px-5 text-gray-900 font-semibold hover:bg-orange-50 transition-all rounded-xl"
               >
                 <span className="flex-1 text-right">{title}</span>
                 <span
-                  className={`text-orange-500 ml-2 transform transition-transform duration-300 ${
+                  className={`text-orange-500 transform transition-transform duration-300 ${
                     isOpen ? "rotate-180" : "rotate-0"
                   }`}
                 >
@@ -42,11 +45,11 @@ const Syllabus = () => {
               </button>
 
               <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                className={`overflow-hidden transition-all duration-500 ease-in-out ${
                   isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="p-4 text-gray-700 text-sm border-t border-gray-200 text-right">
+                <div className="p-5 text-gray-700 text-sm border-t border-gray-200 bg-gradient-to-l from-orange-50/50 to-transparent text-right leading-relaxed animate-fadeIn">
                   توضیحات مربوط به این بخش از سرفصل در اینجا قرار می‌گیرد.
                 </div>
               </div>
@@ -60,63 +63,66 @@ const Syllabus = () => {
 
 export default function CoursePage() {
   return (
-    <main className="flex flex-col items-center px-4 md:px-12 py-8 bg-white text-gray-900">
+    <main className="flex flex-col items-center px-4 md:px-12 py-12 bg-gradient-to-br from-orange-50 via-white to-orange-100 text-gray-900 min-h-screen relative overflow-hidden">
+      {/* افکت نور در پس‌زمینه */}
+      <div className="absolute top-[-200px] right-[-200px] w-[400px] h-[400px] bg-orange-300/30 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-[-200px] left-[-200px] w-[400px] h-[400px] bg-yellow-200/20 rounded-full blur-3xl animate-pulse" />
+
       {/* بالا - بخش معرفی و ثبت‌نام */}
-      <section className="w-full max-w-7xl flex flex-col md:flex-row justify-center items-stretch gap-4 mb-10">
+      <section className="w-full max-w-7xl flex flex-col md:flex-row justify-center items-stretch gap-6 mb-12 z-10">
         {/* ستون چپ - اطلاعات و ثبت‌نام */}
-        <div className="w-full md:w-1/3 bg-gray-50 p-6 flex flex-col justify-between rounded-lg shadow-lg border-2 border-gray-400">
+        <div className="w-full md:w-1/3 bg-white/70 backdrop-blur-lg border border-gray-200 rounded-2xl shadow-lg p-8 flex flex-col justify-between hover:shadow-2xl hover:border-orange-300 transition-all duration-300">
           <div>
-            <h2 className="text-2xl font-bold text-orange-600 mb-4">
+            <h2 className="text-3xl font-extrabold text-orange-600 mb-6 text-center drop-shadow-sm">
               ۵۹,۹۹۹,۰۰۰ تومان
             </h2>
-            <button className="w-full bg-orange-400 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg transition">
+            <button className="w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-[1.03] shadow-md">
               ثبت نام
             </button>
           </div>
-          <div className="mt-6 space-y-2 text-gray-700 text-sm">
-            <div className="flex justify-between border-b pb-1">
-              <span>تاریخ شروع</span>
-              <span>۱۳۰۳/۰۲/۲۱</span>
-            </div>
-            <div className="flex justify-between border-b pb-1">
-              <span>تاریخ شروع</span>
-              <span>۱۳۰۳/۰۲/۲۱</span>
-            </div>
-            <div className="flex justify-between border-b pb-1">
-              <span>تاریخ شروع</span>
-              <span>۱۳۰۳/۰۲/۲۱</span>
-            </div>
-            <div className="flex justify-between">
-              <span>تاریخ شروع</span>
-              <span>۱۳۰۳/۰۲/۲۱</span>
-            </div>
+
+          <div className="mt-8 space-y-3 text-gray-700 text-sm">
+            {Array(4)
+              .fill("۱۳۰۳/۰۲/۲۱")
+              .map((date, i) => (
+                <div
+                  key={i}
+                  className="flex justify-between border-b border-gray-200 pb-2 hover:text-orange-500 transition-colors"
+                >
+                  <span>تاریخ شروع</span>
+                  <span className="font-medium">{date}</span>
+                </div>
+              ))}
           </div>
         </div>
 
         {/* ستون راست - بنر دوره */}
-       <div className="w-full md:w-2/3 bg-neutral-50 flex items-center justify-center rounded-lg shadow-lg border-2 border-gray-400 p-4 min-h-[200px] md:min-h-[300px]">
-  <span className="text-gray-600">تصویر یا بنر دوره</span>
-</div>
-
+        <div className="w-full md:w-2/3 bg-white/70 backdrop-blur-md flex items-center justify-center rounded-2xl shadow-xl border border-gray-200 p-6 min-h-[220px] md:min-h-[320px] hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+          <span className="text-gray-600 text-lg font-medium relative z-10">
+            تصویر یا بنر دوره
+          </span>
+          <div className="absolute inset-0 bg-gradient-to-tr from-orange-200/30 to-transparent opacity-70" />
+        </div>
       </section>
 
       {/* پایین - درباره دوره */}
-      <section className="w-full md:w-2/3 bg-neutral-50 flex flex-col items-start justify-center rounded-lg shadow-lg border-2 border-gray-400 p-4">
-        <div className="mb-6 w-full">
-          <h3 className="text-2xl text-right font-bold text-orange-600 mb-4">درباره این دوره</h3>
-          <p className="text-gray-800 leading-relaxed text-right">
+      <section className="w-full md:w-2/3 bg-white/80 backdrop-blur-md flex flex-col items-start justify-center rounded-2xl shadow-xl border border-gray-200 p-8 hover:shadow-2xl transition-all duration-300 z-10">
+        <div className="mb-8 w-full">
+          <h3 className="text-2xl text-right font-bold text-orange-600 mb-4 relative after:content-[''] after:block after:w-20 after:h-[3px]  after:rounded-full after:mt-1 after:ml-auto">
+            درباره این دوره
+          </h3>
+          <p className="text-gray-800 leading-relaxed text-right text-[15px]">
             این دوره با هدف آشنایی مدیران و متخصصان امنیت سایبری با نقش هوش
             مصنوعی در دفاع و حمله های سایبری طراحی شده است. شرکت کنندگان خواهند
             آموخت که چگونه از الگوریتم های یادگیری ماشین و هوش مصنوعی برای تشخیص
-            تهدیدات، تحلیل بدافزار ها و پاسخ خودکار به حمله ها استفاده کنند.
-            همچنین به جنبه های تاریک این فناوری از جمله حمله های مبتنی بر هوش
-            مصنوعی مانند دیپ فیک و بدافزارهای تطبیقی پرداخته می‌شود. این دوره
-            شامل مثال های واقعی، دموهای عملی و بررسی ابزارهای پیشرو مانند <br/> Darktrace و CrowdStrike
-   
-            <br /><br />
+            تهدیدات، تحلیل بدافزارها و پاسخ خودکار به حمله‌ها استفاده کنند.
+            همچنین به جنبه‌های تاریک این فناوری از جمله حمله‌های مبتنی بر هوش
+            مصنوعی مانند دیپ‌فیک و بدافزارهای تطبیقی پرداخته می‌شود. این دوره
+             شامل مثال های واقعی، دموهای عملی و بررسی ابزارهای پیشرو مانند <br/> Darktrace و CrowdStrike
+            <br />
+            <br />
             در پایان نقشه راهی برای ادغام هوش مصنوعی در استراتژی امنیت سازمانی
-            ارائه خواهد شد.    مدت  زمان   این 
-            بوتکمپ ۸ ساعت است که در روز پنجشنبه ۱۳
+            ارائه خواهد شد. مدت زمان این بوتکمپ ۸ ساعت است که در روز پنجشنبه ۱۳
             آذرماه از ساعت ۹ تا ۱۷ به صورت حضوری برگزار خواهد شد
           </p>
         </div>
