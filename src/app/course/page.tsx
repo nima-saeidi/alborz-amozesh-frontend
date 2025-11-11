@@ -97,7 +97,7 @@ export default function CoursePage() {
         </div>
 
         {/* ستون راست - بنر دوره */}
-        <div className="w-full md:w-2/3 bg-white/70 backdrop-blur-md flex items-center justify-center rounded-2xl shadow-xl border border-gray-200 p-6 min-h-[220px] md:min-h-[320px] hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+        <div className="w-full md:w-2/3 bg-white/70 backdrop-blur-md flex items-center justify-center rounded-2xl shadow-xl border border-gray-200 p-6  hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
           <span className="text-gray-600 text-lg font-medium relative z-10">
             تصویر یا بنر دوره
           </span>
@@ -106,26 +106,30 @@ export default function CoursePage() {
       </section>
 
       {/* پایین - درباره دوره */}
-      <section className="w-full md:w-2/3 bg-white/80 backdrop-blur-md flex flex-col items-start justify-center rounded-2xl shadow-xl border border-gray-200 p-8 hover:shadow-2xl transition-all duration-300 z-10">
-        <div className="mb-8 w-full">
-          <h3 className="text-2xl text-right font-bold text-orange-600 mb-4 relative after:content-[''] after:block after:w-20 after:h-[3px]  after:rounded-full after:mt-1 after:ml-auto">
-            درباره این دوره
-          </h3>
-          <p className="text-gray-800 leading-relaxed text-right text-[15px]">
-            این دوره با هدف آشنایی مدیران و متخصصان امنیت سایبری با نقش هوش
-            مصنوعی در دفاع و حمله های سایبری طراحی شده است. شرکت کنندگان خواهند
-            آموخت که چگونه از الگوریتم های یادگیری ماشین و هوش مصنوعی برای تشخیص
-            تهدیدات، تحلیل بدافزارها و پاسخ خودکار به حمله‌ها استفاده کنند.
-            همچنین به جنبه‌های تاریک این فناوری از جمله حمله‌های مبتنی بر هوش
-            مصنوعی مانند دیپ‌فیک و بدافزارهای تطبیقی پرداخته می‌شود. این دوره
-             شامل مثال های واقعی، دموهای عملی و بررسی ابزارهای پیشرو مانند <br/> Darktrace و CrowdStrike
-            <br />
-            <br />
-            در پایان نقشه راهی برای ادغام هوش مصنوعی در استراتژی امنیت سازمانی
-            ارائه خواهد شد. مدت زمان این بوتکمپ ۸ ساعت است که در روز پنجشنبه ۱۳
-            آذرماه از ساعت ۹ تا ۱۷ به صورت حضوری برگزار خواهد شد
-          </p>
-        </div>
+      <section
+  dir="rtl"
+  className="w-full md:w-2/3 flex flex-col items-start p-8 text-lg text-right ml-auto"
+>
+  <div className="mb-8 w-full">
+    <h3 className="text-2xl font-bold text-orange-600 mb-4 relative after:content-[''] after:block after:w-20 after:h-[3px] after:rounded-full after:mt-1 after:ml-auto">
+      درباره این دوره
+    </h3>
+    <p className="text-gray-800 leading-relaxed text-[15px]">
+      این دوره با هدف آشنایی مدیران و متخصصان امنیت سایبری با نقش هوش
+      مصنوعی در دفاع و حمله‌های سایبری طراحی شده است. شرکت‌کنندگان خواهند
+      آموخت که چگونه از الگوریتم‌های یادگیری ماشین و هوش مصنوعی برای تشخیص
+      تهدیدات، تحلیل بدافزارها و پاسخ خودکار به حمله‌ها استفاده کنند.
+      همچنین به جنبه‌های تاریک این فناوری از جمله حمله‌های مبتنی بر هوش
+      مصنوعی مانند دیپ‌فیک و بدافزارهای تطبیقی پرداخته می‌شود. این دوره
+      شامل مثال‌های واقعی، دموهای عملی و بررسی ابزارهای پیشرو مانند <br />
+      Darktrace و CrowdStrike
+      <br />
+      <br />
+      در پایان نقشه راهی برای ادغام هوش مصنوعی در استراتژی امنیت سازمانی
+      ارائه خواهد شد. مدت زمان این بوتکمپ ۸ ساعت است که در روز پنجشنبه ۱۳
+      آذرماه از ساعت ۹ تا ۱۷ به صورت حضوری برگزار خواهد شد.
+    </p>
+  </div>
 
         {/* سرفصل‌ها */}
         <Syllabus />
