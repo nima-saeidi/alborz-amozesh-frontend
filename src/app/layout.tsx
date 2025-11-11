@@ -32,7 +32,6 @@ export default function RootLayout({
             <div className="flex flex-col w-full">
                 <Navbar/>
                 {children}
-                <Footer/>
             </div>
         </body>
         </html>
