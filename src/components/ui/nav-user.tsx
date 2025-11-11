@@ -28,6 +28,7 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
+import Link from "next/link";
 
 export function NavUser({
                             user,
@@ -85,10 +86,12 @@ export function NavUser({
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator/>
                         <DropdownMenuGroup>
-                            <DropdownMenuItem className="flex flex-row-reverse">
-                                <IconUserCircle/>
-                                پروفایل
-                            </DropdownMenuItem>
+                            <Link href="/dashboard/profile">
+                                <DropdownMenuItem className="flex flex-row-reverse">
+                                    <IconUserCircle/>
+                                    پروفایل
+                                </DropdownMenuItem>
+                            </Link>
                             <DropdownMenuItem className="flex flex-row-reverse">
                                 <IconCreditCard/>
                                 مدیریت مالی

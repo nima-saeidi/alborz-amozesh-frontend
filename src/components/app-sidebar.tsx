@@ -19,11 +19,11 @@ const data = {
     navMain: [
         {
             title: "دوره های من",
-            url: "#",
+            url: "/dashboard/my-courses",
         },
         {
             title: "صورت های مالی",
-            url: "#",
+            url: "/dashboard/financial-statements",
         },
     ]
 }
