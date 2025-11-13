@@ -35,7 +35,7 @@ export function LoginForm({
                             <div className="flex flex-col items-center gap-2 text-center">
                                 <h1 className="text-2xl font-bold">خوش آمدید</h1>
                                 <p className="text-muted-foreground text-balance">
-                                    ورود با حساب کاربری البرز
+                                    ورود با حساب کاربری
                                 </p>
                             </div>
                             <Field>
