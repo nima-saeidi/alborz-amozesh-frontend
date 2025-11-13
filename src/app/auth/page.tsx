@@ -1,124 +1,133 @@
 "use client";
+import React, { useState } from "react";
 
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF, FaGithub, FaLinkedinIn } from "react-icons/fa";
+import Footer from "@/components/footer";
 
-export default function AuthPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
+export default function AuthForm() {
+  const [isLogin, setIsLogin] = useState(true);
+  const [animating, setAnimating] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // نمونه تستی - در پروژه واقعی به API وصل می‌شود
-    if (email === "admin@example.com" && password === "123456") {
-      router.push("/dashboard");
-    } else {
-      alert("ایمیل یا رمز عبور اشتباه است.");
-    }
+  const handleToggle = () => {
+    setAnimating(true);
+    setTimeout(() => {
+      setIsLogin(!isLogin);
+    }, 400); // تغییر حالت فرم بعد از نیمه انیمیشن
+    setTimeout(() => {
+      setAnimating(false);
+    }, 800); // پایان انیمیشن
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-100 via-white to-orange-50 dark:from-gray-900 dark:via-gray-800 dark:to-black transition-colors duration-700 overflow-hidden">
-      {/* نور و انیمیشن پس‌زمینه */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute top-[-200px] left-[-200px] w-[400px] h-[400px] bg-orange-400/20 dark:bg-orange-500/10 rounded-full blur-3xl animate-pulse"
-      />
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.5, delay: 0.3 }}
-        className="absolute bottom-[-200px] right-[-200px] w-[400px] h-[400px] bg-[#FF8E50]/25 dark:bg-orange-600/10 rounded-full blur-3xl animate-pulse"
-      />
+    <div className="flex flex-col min-h-screen">
+      <div className="flex-grow flex items-center justify-center bg-gray-100 px-4 py-12">
+        <div className="w-full max-w-4xl bg-white shadow-xl rounded-3xl flex flex-col md:flex-row overflow-hidden relative">
 
-      {/* کارت اصلی */}
-      <motion.div
-        initial={{ opacity: 0, y: 60 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 w-[800px] max-w-full md:h-[480px] bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 dark:border-gray-700 flex flex-col items-center justify-center p-8 hover:shadow-orange-200/30 hover:-translate-y-1 transition-all duration-300"
-      >
-        {/* لوگو و متن خوش‌آمد */}
-        <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          className="mb-6 text-center"
-        >
-          <h1 className="text-[42px] font-extrabold bg-gradient-to-r from-[#FF8E50] to-[#FF5500] bg-clip-text text-transparent drop-shadow-md tracking-wide">
-            LOGO
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-            خوش آمدید! لطفاً وارد حساب کاربری خود شوید
-          </p>
-        </motion.div>
+          {/* بخش سمت چپ فرم */}
+          <div className={`w-full md:w-1/2 p-8 flex flex-col justify-center transition-all duration-700
+            ${animating ? "opacity-50 translate-x-4" : "opacity-100 translate-x-0"}`}>
+            <h2 className="text-3xl font-bold text-gray-700 text-center mb-6">
+              {isLogin ? "Login" : "Register"}
+            </h2>
 
-        {/* فرم ورود */}
-        <motion.form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-4 items-center w-full transition-all duration-300"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-        >
-          <input
-            type="email"
-            placeholder="ایمیل"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-[450px] max-w-full h-[55px] rounded-xl bg-white/90 dark:bg-gray-800/70 border border-gray-300 dark:border-gray-700 px-4 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF8E50]/70 focus:border-[#FF8E50] placeholder-gray-400 dark:placeholder-gray-500 shadow-sm transition-all"
-          />
+            <form className="space-y-4">
+              {!isLogin && (
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    className="w-full px-4 py-3 border rounded-lg pl-10 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                    required
+                  />
+                  <FaUser className="absolute left-3 top-3.5 text-gray-400" />
+                </div>
+              )}
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="w-full px-4 py-3 border rounded-lg pl-10 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                  required
+                />
+                <FaEnvelope className="absolute left-3 top-3.5 text-gray-400" />
+              </div>
+              <div className="relative">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="w-full px-4 py-3 border rounded-lg pl-10 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                  required
+                />
+                <FaLock className="absolute left-3 top-3.5 text-gray-400" />
+              </div>
 
-          <input
-            type="password"
-            placeholder="رمز عبور"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-[450px] max-w-full h-[55px] rounded-xl bg-white/90 dark:bg-gray-800/70 border border-gray-300 dark:border-gray-700 px-4 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF8E50]/70 focus:border-[#FF8E50] placeholder-gray-400 dark:placeholder-gray-500 shadow-sm transition-all"
-          />
+              <button
+                type="submit"
+                className="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition"
+              >
+                {isLogin ? "Login" : "Register"}
+              </button>
+            </form>
 
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            type="submit"
-            className="w-[450px] max-w-full h-[55px] rounded-xl bg-gradient-to-r from-[#FF8E50] to-[#FF5E00] text-white font-bold text-lg shadow-md hover:shadow-lg hover:from-[#FF9E60] hover:to-[#FF6E10] transition-all duration-300"
-          >
-            ورود
-          </motion.button>
-        </motion.form>
+            {isLogin && (
+              <p className="text-center text-orange-500 mt-4">
+                <a href="#" className="hover:underline hover:text-orange-600">
+                  Lost your password?
+                </a>
+              </p>
+            )}
 
-        {/* لینک‌ها */}
-        <motion.div
-          className="mt-6 text-sm text-gray-700 dark:text-gray-400 flex flex-col items-center gap-2 text-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
-        >
-          <Link
-            href="/forgot-password"
-            className="hover:text-[#FF8E50] transition-colors duration-200"
-          >
-            فراموشی رمز عبور؟
-          </Link>
-          <div>
-            حساب کاربری ندارید؟{" "}
-            <Link
-              href="/register"
-              className="text-[#FF8E50] font-semibold hover:underline"
-            >
-              ساخت حساب کاربری
-            </Link>
+            <p className="text-center text-gray-500 mt-6">or continue with</p>
+
+            <div className="flex justify-center space-x-4 mt-4">
+              <FcGoogle className="text-2xl cursor-pointer" />
+              <FaFacebookF className="text-black text-2xl cursor-pointer hover:text-gray-700 transition" />
+              <FaGithub className="text-black text-2xl cursor-pointer hover:text-gray-700 transition" />
+              <FaLinkedinIn className="text-black text-2xl cursor-pointer hover:text-gray-700 transition" />
+            </div>
+
+            <p className="text-center text-gray-600 mt-6">
+              {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+              <button
+                onClick={handleToggle}
+                type="button"
+                className="text-orange-500 font-medium hover:underline hover:text-orange-600"
+              >
+                {isLogin ? "Register" : "Login"}
+              </button>
+            </p>
           </div>
-        </motion.div>
-      </motion.div>
+
+          {/* بخش سمت راست نارنجی/سیاه با انیمیشن باز شدن از گوشه‌ها */}
+          <div
+            className={`hidden md:flex w-1/2 flex-col items-center justify-center p-10 text-white transition-all duration-700
+              rounded-tl-[80px] rounded-bl-[80px]
+              ${isLogin ? "bg-orange-500 hover:bg-orange-600" : "bg-black hover:bg-gray-900"}
+              ${animating ? "scale-x-105 scale-y-105" : "scale-x-100 scale-y-100"}`}
+          >
+            <div className="absolute w-40 h-40 bg-white opacity-20 rounded-full -top-10 -left-10"></div>
+            <div className="absolute w-24 h-24 bg-white opacity-20 rounded-full -bottom-5 -right-5"></div>
+
+            <h2 className="text-3xl font-bold text-center">
+              {isLogin ? "Welcome Back!" : "Join Us Now!"}
+            </h2>
+            <p className="text-center mt-2">
+              {isLogin ? "Sign in to continue" : "Create an account to get started"}
+            </p>
+            <button
+              onClick={handleToggle}
+              className="border-2 border-white py-2 px-6 rounded-lg mt-4 hover:bg-white hover:text-orange-500 transition"
+            >
+              {isLogin ? "Register" : "Login"}
+            </button>
+          </div>
+
+        </div>
+      </div>
+       <Footer />
     </div>
+    
   );
 }
