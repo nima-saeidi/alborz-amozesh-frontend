@@ -49,6 +49,7 @@ export default function Home() {
                 linkAvailable={true}
                 linkTitle="شروع یادگیری"
                 link="/courses"
+                
             />
             <HeroSection/>
 

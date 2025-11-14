@@ -166,3 +166,20 @@
       }
     }
 }
+
+/* ✅ فقط جلوگیری از اسکرول افقی، بدون حذف dots یا عناصر اسلایدر */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* برای جلوگیری از بیرون‌زدگی ناشی از margin/padding اضافی */
+* {
+  box-sizing: border-box;
+}
+
+/* اطمینان از اینکه slick-track تمام عرض رو درست پر کنه */
+.slick-track {
+  display: flex;
+  align-items: stretch;
+}
