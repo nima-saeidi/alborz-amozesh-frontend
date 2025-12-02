@@ -8,6 +8,8 @@ import {AnimatePresence, motion} from "motion/react";
 import {cn} from "@/lib/utils"
 import {ReactNode, useState} from "react";
 import Link from "next/link";
+import logoImage from "../../assets/logo.png" ;
+import Image from "next/image";
 
 interface CardForCoursesProps {
     onMouseEnter?: () => void,
@@ -138,9 +140,9 @@ export default function TopNavbar() {
 
     return (
         <div className="flex justify-between items-center h-[100px] w-full">
-            <div className="hidden md:w-[200px] h-full md:flex justify-center items-center">
+            <div className="hidden m-5 md:w-[200px] h-full md:flex justify-center items-center">
                 <Link
-                    className="m-5 h-[60px] w-full flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]"
+                    className=" h-[60px] w-full flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]"
                     href="/auth"
                 >
                     ورود / عضویت
@@ -166,13 +168,14 @@ export default function TopNavbar() {
                     </PopoverContent>
                 </Popover>
             </div>
-
-            <div className="w-[200px] h-full flex justify-center items-center">
-                <Link
-                    className="m-5 h-[60px] w-[225px] flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]"
-                    href="#"
-                >
-                    LOGO
+            <div className="mx-2 relative h-[100px] w-[62px] md:w-[200px] flex items-center justify-center">
+                <Link href={"/"}>
+                    <Image
+                        src={logoImage}
+                        alt="logo"
+                        fill
+                        className="object-contain"
+                    />
                 </Link>
             </div>
         </div>
