@@ -13,6 +13,10 @@ import {
     SidebarRail,
 } from "@/components/ui/sidebar"
 import {NavUser} from "@/components/ui/nav-user";
+import Image from "next/image";
+import logoImage from "../../assets/logo.png";
+import Link from "next/link";
+import {Separator} from "@/components/ui/separator";
 
 // This is sample data.
 const data = {
@@ -38,8 +42,19 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
         <Sidebar {...props}>
             <SidebarContent>
                 <SidebarGroup className="select-none">
-                    <SidebarGroupLabel className="justify-center text-lg my-8 select-none">آکادمی البرز</SidebarGroupLabel>
-                    <SidebarGroupContent>
+                    <SidebarGroupLabel className="justify-center text-lg my-8 select-none">
+                        <div className="h-12 w-1/2 flex items-center justify-center">
+                            <Link href={"/"}>
+                                <Image
+                                    src={logoImage}
+                                    alt="logo"
+                                    className="h-full w-auto max-w-full object-contain"
+                                />
+                            </Link>
+                        </div>
+                    </SidebarGroupLabel>
+                    <Separator orientation={"horizontal"}/>
+                    <SidebarGroupContent className="mt-3">
                         <SidebarMenu>
                             {data.navMain.map((item) => (
                                 <SidebarMenuItem key={item.title}>
