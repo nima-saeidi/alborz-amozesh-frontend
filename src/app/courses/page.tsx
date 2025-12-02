@@ -1,62 +1,109 @@
-import Banner from "@/components/ui/banner";
-import CourseCard from "@/components/ui/course-card";
-import SearchBar from "@/components/ui/search-bar";
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination";
+// app/courses/page.tsx
+"use client";
 
-export default function CoursePage() {
-    return (
-        <>
-            <Banner title={"آموزش با چاشنی مهارت"} description={"یادگیری با کیفیت و منتورشیب نارنجی"} linkAvailable={false}/>
-            <div className="relative lg:mx-5 mt-[50px] overflow-hidden flex flex-col">
-                <div className="h-[50px] flex-row-reverse justify-between items-center border-b">
-                    {/*TODO remember to add choosing the course filter ps. should reflect in url as a query parameter*/}
-                    <div className="h-full flex flex-row-reverse gap">
-                        <div className="w-[100px] border-b-4 border-black flex justify-center items-center">ویدیویی</div>
-                        <div className="w-[100px] flex justify-center items-center">حضوری</div>
-                        <div className="w-[100px] flex justify-center items-center">وبینار</div>
-                    </div>
-                </div>
-                <div className="my-[50px] mb-10 flex-grow grid justify-items-center grid-flow-row grid-cols-[repeat(auto-fit,minmax(362px,1fr))] gap-x-8 gap-y-9">
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                </div>
-                <Pagination className="mb-[50px]">
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">۳</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                ۲
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">۱</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
-            </div>
-        </>
-    );
+import { useEffect, useState } from "react";
+import CourseCard from "@/components/ui/course-card";
+
+interface Course {
+  id: number;
+  title: string;
+  short_description?: string;
+  description?: string;
+  cost?: string;
+  discount_price?: string;
+  start_date?: string;
+  end_date?: string;
+  total_students?: string;
+  rating_avg?: string;
+  teacher?: number;
+  logo?: string;
 }
+
+export default function CoursesListPage() {
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await fetch("http://185.208.175.233:5000/courses/");
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+        const data: { results: Course[] } = await res.json();
+
+        let formattedCourses: Course[] = [];
+
+        if (data.results && data.results.length > 0) {
+          formattedCourses = data.results.map((course) => ({
+            id: course.id,
+            title: course.title || "بدون عنوان",
+            short_description: course.short_description,
+            description: course.description,
+            cost: course.cost,
+            discount_price: course.discount_price,
+            start_date: course.start_date,
+            end_date: course.end_date,
+            total_students: course.total_students,
+            rating_avg: course.rating_avg,
+            teacher: course.teacher,
+            logo: course.logo,
+          }));
+        } else {
+          // fallback داده تستی با متن فارسی
+          formattedCourses = [
+            {
+              id: 1,
+              title: "دوره تستی هوش مصنوعی",
+              short_description: "این یک دوره تستی است",
+              description: "توضیحات کامل دوره تستی",
+              cost: "1000000",
+              discount_price: "900000",
+              start_date: "1402-09-13",
+              end_date: "1402-09-14",
+              total_students: "20",
+              rating_avg: "4.5",
+              teacher: 1,
+              logo: "https://via.placeholder.com/300x150",
+            },
+          ];
+        }
+
+        setCourses(formattedCourses);
+      } catch (err) {
+        console.error("Error fetching courses:", err);
+        // fallback وقتی fetch شکست خورد
+        setCourses([
+          {
+            id: 1,
+            title: "دوره تستی هوش مصنوعی",
+            short_description: "این یک دوره تستی است",
+            description: "توضیحات کامل دوره تستی",
+            cost: "1000000",
+            discount_price: "900000",
+            start_date: "1402-09-13",
+            end_date: "1402-09-14",
+            total_students: "20",
+            rating_avg: "4.5",
+            teacher: 1,
+            logo: "https://via.placeholder.com/300x150",
+          },
+        ]);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  return (
+    <div className="my-[50px] mb-10 flex-grow grid justify-items-center grid-flow-row grid-cols-[repeat(auto-fit,minmax(362px,1fr))] gap-x-8 gap-y-9">
+      {courses.map((course) => (
+        <CourseCard
+          key={course.id}
+          id={course.id}
+          title={course.title}
+          description={course.short_description || ""}
+        />
+      ))}
+    </div>
+  );
+}
+

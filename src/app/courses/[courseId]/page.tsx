@@ -1,20 +1,38 @@
+
+// app/courses/[courseld]/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const Syllabus = () => {
-  const topics = [
-    "ورود به دنیای هوش مصنوعی",
-    "الگوریتم‌های یادگیری ماشین",
-    "تهدیدات سایبری",
-    "ابزارهای امنیتی",
-  ];
+interface CourseSession {
+  id: number;
+  title: string;
+  description?: string;
+}
 
+interface Course {
+  id: number;
+  title: string;
+  description?: string;
+  discount_price?: string;
+  cost?: string;
+  logo?: string;
+  start_date?: string;
+  sessions?: CourseSession[];
+}
+
+const defaultSessions: CourseSession[] = [
+  { id: 1, title: "ورود به دنیای هوش مصنوعی", description: "توضیحات ورود به دنیای هوش مصنوعی" },
+  { id: 2, title: "الگوریتم‌های یادگیری ماشین", description: "توضیحات الگوریتم‌های یادگیری ماشین" },
+  { id: 3, title: "تهدیدات سایبری", description: "توضیحات تهدیدات سایبری" },
+  { id: 4, title: "ابزارهای امنیتی", description: "توضیحات ابزارهای امنیتی" },
+];
+
+const Syllabus = ({ sessions }: { sessions: CourseSession[] }) => {
+  const topics = sessions.length ? sessions.map((s) => s.title) : defaultSessions.map((s) => s.title);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const toggle = (index: number) => setOpenIndex(openIndex === index ? null : index);
 
-  const toggle = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
 
   return (
     <div className="w-full">
@@ -25,6 +43,7 @@ const Syllabus = () => {
       <div className="space-y-4 w-full">
         {topics.map((title, i) => {
           const isOpen = openIndex === i;
+          const description = sessions[i]?.description || defaultSessions[i]?.description;
           return (
             <div
               key={i}
@@ -61,7 +80,38 @@ const Syllabus = () => {
   );
 };
 
-export default function CoursePage() {
+export default function CoursePage({ params }: { params: { courseld: string } }) {
+  const [course, setCourse] = useState<Course | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const res = await fetch(`http://185.208.175.233:5000/courses/${params.courseld}/`);
+        if (!res.ok) throw new Error("Network response was not ok");
+        const data: Course = await res.json();
+        setCourse(data);
+      } catch (err) {
+        console.error("Error fetching course:", err);
+        setCourse({
+          id: 0,
+          title: "دوره نمونه",
+          description: "این دوره با هدف آشنایی مدیران و متخصصان امنیت سایبری با نقش هوش مصنوعی در دفاع و حمله‌های سایبری طراحی شده است.",
+          discount_price: "۵۹,۹۹۹,۰۰۰",
+          cost: "۶۹,۹۹۹,۰۰۰",
+          start_date: "۱۳۰۳/۰۲/۲۱",
+          sessions: defaultSessions,
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCourse();
+  }, [params.courseld]);
+
+  if (loading) return <p>در حال بارگذاری...</p>;
+  if (!course) return <p>دوره‌ای یافت نشد.</p>;
+
   return (
     <main className="flex flex-col items-center px-4 md:px-12 py-12 bg-gradient-to-br from-orange-50 via-white to-orange-100 text-gray-900 min-h-screen relative overflow-hidden">
       {/* افکت نور در پس‌زمینه */}
@@ -82,8 +132,8 @@ export default function CoursePage() {
           </div>
 
           <div className="mt-8 space-y-3 text-gray-700 text-sm">
-            {Array(4)
-              .fill("۱۳۰۳/۰۲/۲۱")
+            {(course.start_date ? [course.start_date] :Array(4)
+              .fill("۱۳۰۳/۰۲/۲۱"))
               .map((date, i) => (
                 <div
                   key={i}
@@ -98,9 +148,13 @@ export default function CoursePage() {
 
         {/* ستون راست - بنر دوره */}
         <div className="w-full md:w-2/3 bg-white/70 backdrop-blur-md flex items-center justify-center rounded-2xl shadow-xl border border-gray-200 p-6  hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+           {course.logo ? (
+            <img src={course.logo} alt={course.title} className="w-full h-auto rounded-xl" />
+          ) : (
           <span className="text-gray-600 text-lg font-medium relative z-10">
             تصویر یا بنر دوره
           </span>
+           )}
           <div className="absolute inset-0 bg-gradient-to-tr from-orange-200/30 to-transparent opacity-70" />
         </div>
       </section>
@@ -128,11 +182,13 @@ export default function CoursePage() {
       در پایان نقشه راهی برای ادغام هوش مصنوعی در استراتژی امنیت سازمانی
       ارائه خواهد شد. مدت زمان این بوتکمپ ۸ ساعت است که در روز پنجشنبه ۱۳
       آذرماه از ساعت ۹ تا ۱۷ به صورت حضوری برگزار خواهد شد.
+    <br />
+     {course.description}
     </p>
   </div>
 
         {/* سرفصل‌ها */}
-        <Syllabus />
+        <Syllabus sessions={course.sessions || defaultSessions} />
       </section>
     </main>
   );
