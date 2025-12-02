@@ -79,14 +79,6 @@ export default function AuthForm() {
               </p>
             )}
 
-            <p className="text-center text-gray-500 mt-6">or continue with</p>
-
-            <div className="flex justify-center space-x-4 mt-4">
-              <FcGoogle className="text-2xl cursor-pointer" />
-              <FaFacebookF className="text-black text-2xl cursor-pointer hover:text-gray-700 transition" />
-              <FaGithub className="text-black text-2xl cursor-pointer hover:text-gray-700 transition" />
-              <FaLinkedinIn className="text-black text-2xl cursor-pointer hover:text-gray-700 transition" />
-            </div>
 
             <p className="text-center text-gray-600 mt-6">
               {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
@@ -126,7 +118,6 @@ export default function AuthForm() {
 
         </div>
       </div>
-       <Footer />
     </div>
     
   );
