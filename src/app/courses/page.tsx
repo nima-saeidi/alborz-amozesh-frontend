@@ -16,10 +16,7 @@ export default function CoursePage() {
         <>
             <Banner title={"آموزش با چاشنی مهارت"} description={"یادگیری با کیفیت و منتورشیب نارنجی"} linkAvailable={false}/>
             <div className="relative lg:mx-5 mt-[50px] overflow-hidden flex flex-col">
-                <div className="h-[50px] flex justify-between items-center border-b">
-                    <div className="h-full">
-                        <SearchBar />
-                    </div>
+                <div className="h-[50px] flex-row-reverse justify-between items-center border-b">
                     <div className="h-full flex flex-row-reverse gap">
                         <div className="w-[100px] border-b-4 border-black flex justify-center items-center">ویدیویی</div>
                         <div className="w-[100px] flex justify-center items-center">حضوری</div>
