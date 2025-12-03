@@ -1,9 +1,7 @@
 'use server';
 
-import { AuthService } from '@/lib/auth';
+import { AuthService } from '@/lib/api/auth';
 import { redirect } from 'next/navigation';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export async function loginAction(prevState: any, formData: FormData) {
     const email = formData.get('email') as string;
@@ -35,40 +33,16 @@ export async function registerAction(prevState: any, formData: FormData) {
             error: 'Please enter all required fields',
         };
     }
+    const result = await AuthService.register({first_name: firstName, last_name: lastName, email: email, password: password2, password2});
 
-    try {
-        const response = await fetch(`${API_URL}/auth/register/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                first_name: firstName,
-                last_name: lastName,
-                email: email,
-                password: password,
-                password2: password2,
-            }),
-        });
-        console.log(response);
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            return {
-                success: false,
-                error: errorData.message || 'Registration failed'
-            };
-        }
-
-        // Auto-login after successful registration
+    if (result.success) {
         const loginResult = await AuthService.login({ email, password });
 
         if (loginResult.success) {
             redirect('/dashboard');
         }
-
-        return { success: true };
-    } catch (error) {
-        return { success: false, error: 'Registration failed' };
     }
+    return result;
 }
 
 
