@@ -24,11 +24,7 @@ const data = {
         {
             title: "دوره های من",
             url: "/dashboard/my-courses",
-        },
-        {
-            title: "صورت های مالی",
-            url: "/dashboard/financial-statements",
-        },
+        }
     ]
 }
 const tempuser = {

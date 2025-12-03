@@ -2,34 +2,51 @@
 
 import {usePathname} from "next/navigation";
 import {useEffect, useState} from "react";
+import {getCourse} from "@/lib/api/courses";
 
 export default function HeaderTitle() {
-    // const { title, setTitle } = useTitle();
     const pathname = usePathname();
     const [displayTitle, setDisplayTitle] = useState<string>("");
     const [fadeState, setFadeState] = useState<"fade-in" | "fade-out">("fade-in");
+
+    const getCourseTitle = async (pathname: string) => {
+        const id = pathname.split("/").pop();
+        if (!id || isNaN(Number(id))) return "Untitled Course";
+
+        const course = await getCourse({id: Number(id)});
+        return course.title;
+    }
 
     useEffect(() => {
         const pathTitleMap: Record<string, string> = {
             "/dashboard": "داشبورد",
             "/dashboard/profile": "پروفایل",
             "/dashboard/my-courses": "دوره های من",
-            "/dashboard/financial-statements": "صورت های مالی",
         };
 
-        const newTitle = pathTitleMap[pathname] || "Untitled Page";
+        const updateTitle = async () => {
+            let newTitle: string;
 
-        if (newTitle === displayTitle) return;
+            if (pathTitleMap[pathname]) {
+                newTitle = pathTitleMap[pathname];
+            } else if (pathname.includes("/my-courses/")) {
+                newTitle = "نام دوره"//await getCourseTitle(pathname); TODO remember to un-comment this
+            } else {
+                newTitle = "Untitled Course";
+            }
 
-        // trigger fade-out → change title → fade-in
-        setFadeState("fade-out");
-        const timeout = setTimeout(() => {
-            setDisplayTitle(newTitle);
-            setFadeState("fade-in");
-        }, 300); // delay matches the fade-out duration
+            if (newTitle === displayTitle) return;
 
-        return () => clearTimeout(timeout);
-    }, [pathname]);
+            // trigger fade-out → change title → fade-in
+            setFadeState("fade-out");
+            setTimeout(() => {
+                setDisplayTitle(newTitle);
+                setFadeState("fade-in");
+            }, 300);
+        };
+
+        updateTitle();
+    }, [pathname, displayTitle]);
 
     return (
         <h1

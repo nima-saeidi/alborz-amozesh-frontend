@@ -29,6 +29,7 @@ import {
     useSidebar,
 } from "@/components/ui/sidebar"
 import Link from "next/link";
+import {logoutAction} from "@/app/actions/auth";
 
 export function NavUser({
                             user,
@@ -102,7 +103,7 @@ export function NavUser({
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem className="flex flex-row-reverse">
+                        <DropdownMenuItem className="flex flex-row-reverse" onClick={() => logoutAction()}>
                             <IconLogout/>
                             خروج از حساب کاربری
                         </DropdownMenuItem>

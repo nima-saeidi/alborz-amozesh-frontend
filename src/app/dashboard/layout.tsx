@@ -16,9 +16,7 @@ export default function DashboardLayout({children}: { children: ReactNode }) {
                 <div className="h-20 mt-2.5 flex justify-end items-center">
                     <HeaderTitle/>
                 </div>
-                <div className="m-6 flex justify-center items-center">
-                    {children}
-                </div>
+                {children}
             </SidebarInset>
             <AppSidebar side="right"/>
         </SidebarProvider>
