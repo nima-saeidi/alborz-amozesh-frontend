@@ -2,7 +2,7 @@
 
 import {usePathname} from "next/navigation";
 import {useEffect, useState} from "react";
-import {getCourse} from "@/lib/api/courses";
+import {CourseService} from "@/lib/api/courses";
 
 export default function HeaderTitle() {
     const pathname = usePathname();
@@ -13,7 +13,7 @@ export default function HeaderTitle() {
         const id = pathname.split("/").pop();
         if (!id || isNaN(Number(id))) return "Untitled Course";
 
-        const course = await getCourse({id: Number(id)});
+        const course = await CourseService.getCourse({id: Number(id)});
         return course.title;
     }
 

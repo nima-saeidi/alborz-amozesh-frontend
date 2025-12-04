@@ -1,6 +1,14 @@
-import z from "zod";
 import {cookies} from "next/headers";
-
+import {
+    loginRequestSchema,
+    loginRequestSchemaType,
+    loginResponseSchema,
+    loginResponseSchemaType,
+    registerRequestSchema,
+    registerRequestSchemaType,
+    registerResponseSchema,
+    registerResponseSchemaType,
+} from "./schemas/auth.schema"
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 interface AuthTokens {
@@ -8,41 +16,7 @@ interface AuthTokens {
     refresh: string;
 }
 
-const loginRequestSchema = z.object({
-    email: z.email(),
-    password: z.string()
-});
-type loginRequestSchemaType = z.infer<typeof loginRequestSchema>;
 
-const loginResponseSchema = z.object({
-    user_id: z.number(),
-    first_name: z.string().max(150),
-    last_name: z.string().max(150),
-    email: z.email(),
-    is_teacher: z.boolean(),
-    refresh: z.string(),
-    access: z.string(),
-});
-type loginResponseSchemaType = z.infer<typeof loginResponseSchema>;
-
-const registerRequestSchema = z.object({
-    first_name: z.string().max(150),
-    last_name: z.string().max(150),
-    email: z.email(),
-    password: z.string(),
-    password2: z.string()
-});
-type registerRequestSchemaType = z.infer<typeof registerRequestSchema>;
-const registerResponseSchema = z.object({
-    user_id: z.number(),
-    first_name: z.string().max(150),
-    last_name: z.string().max(150),
-    email: z.email(),
-    is_teacher: z.boolean(),
-    refresh: z.string(),
-    access: z.string(),
-})
-type registerResponseSchemaType = z.infer<typeof registerResponseSchema>;
 
 export class AuthService {
     static async setCookies<T extends  AuthTokens>(serverResponse: T){

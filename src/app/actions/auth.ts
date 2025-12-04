@@ -10,8 +10,10 @@ export async function loginAction(prevState: any, formData: FormData) {
     if (!email || !password) {
         return { success: false, error: 'Email and password are required' };
     }
+    console.log(email, password);
 
     const result = await AuthService.login({ email, password });
+    console.log(result);
 
     if (result.success) {
         redirect('/dashboard');

@@ -11,8 +11,8 @@ function isTokenExpired(token: string): boolean {
 }
 
 export function middleware(request: NextRequest) {
-    const accessToken = request.cookies.get('access_token')?.value;
-    const refreshToken = request.cookies.get('refresh_token')?.value;
+    const accessToken = request.cookies.get('access')?.value;
+    const refreshToken = request.cookies.get('refresh')?.value;
 
     const isAuthPage = request.nextUrl.pathname.startsWith('/auth');
     const isProtectedPage = request.nextUrl.pathname.startsWith('/dashboard');

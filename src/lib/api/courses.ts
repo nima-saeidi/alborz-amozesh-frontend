@@ -1,46 +1,48 @@
-import z from 'zod'
-const API_URL = "http://185.208.175.233:5000"// process.env.API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+import {
+    getCourseRequestSchema,
+    getCourseRequestSchemaType,
+    getCourseResponseSchema,
+    getCourseResponseSchemaType,
+    getAllCoursesRequestSchema,
+    getAllCoursesRequestSchemaType,
+    getAllCoursesResponseSchema,
+    getAllCoursesResponseSchemaType,
+    getCourseSessionsRequestSchema,
+    getCourseSessionsRequestSchemaType,
+    getCourseSessionsResponseSchema,
+    getCourseSessionsResponseSchemaType
 
-const getCourseRequestSchema = z.object({
-    id: z.number(),
-});
-const getCourseResponseSchema = z.object({
-    id: z.number(),
-    title: z.string(),
-    description: z.string().optional(),
-    short_description: z.string().optional(),
-    category: z.string().optional(),
-    level: z.string().optional(),
-    cost: z.string().optional(),
-    discount_price: z.string().optional(),
-    logo: z.string().optional(),
-    tags: z.string().optional(),
-    requirements: z.string().optional(),
-    teacher: z.number(),
-    sessions: z.object({
-        id: z.number(),
-        title: z.string(),
-        description: z.string().optional(),
-        video: z.string().optional(),
-        pdf: z.string().optional(),
-        created_at: z.string().optional(),
-    }),
-    total: z.string().optional(),
-    start_date: z.string().optional(),
-    end_date: z.string().optional(),
-    limit_students: z.string().optional(),
-    rating_avg: z.string().optional(),
-});
-type getCourseRequestSchemaType = z.infer<typeof getCourseRequestSchema>;
-type getCourseResponseSchemaType = z.infer<typeof getCourseResponseSchema>;
-export async function getCourse({id}: getCourseRequestSchemaType): Promise<getCourseResponseSchemaType> {
-    const parsed = getCourseRequestSchema.parse({id});
+} from "./schemas/courses.schema"
 
-    const res = await fetch(`${API_URL}/courses/${parsed.id}/`,
-        {
-            method: "GET",
-            headers: {"Content-Type": "application/json"},
-        });
-    if (!res.ok) throw new Error("Failed to fetch course");
-    return res.json();
+
+export class CourseService {
+    // /courses/{id}/
+    static async getCourse({id}: getCourseRequestSchemaType): Promise<getCourseResponseSchemaType> {
+        const parsed = getCourseRequestSchema.parse({id});
+
+        const res = await fetch(`${API_URL}/courses/${parsed.id}/`);
+        if (!res.ok) throw new Error("Failed to fetch course");
+        return res.json();
+    }
+    // /courses/?page=&page_size
+    static async getAllCourses({page, page_size}: getAllCoursesRequestSchemaType): Promise<getAllCoursesResponseSchemaType> {
+        const parsed = getAllCoursesRequestSchema.parse({page, page_size});
+        const res = await fetch(`${API_URL}/courses/?${new URLSearchParams({
+            page: parsed.page.toString(),
+            page_size: parsed.page_size.toString(),
+        }).toString()}`);
+        if (!res.ok) throw new Error("Failed to fetch all courses");
+        return res.json();
+    }
+    // /courses/{course_id}/sessions/?page=&page_size
+    static async getCourseSessions({page, page_size, course_id}: getCourseSessionsRequestSchemaType): Promise<getCourseSessionsResponseSchemaType> {
+        const parsed = getCourseSessionsRequestSchema.parse({page, page_size, course_id});
+        const res = await fetch(`${API_URL}/courses/${parsed.course_id}/sessions/?${new URLSearchParams({
+            page: parsed.page.toString(),
+            page_size: parsed.page_size.toString(),
+        }).toString()}`);
+        if (!res.ok) throw new Error("Failed to fetch course sessions");
+        return res.json();
+    }
 }
