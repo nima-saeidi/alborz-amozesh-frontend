@@ -1,3 +1,4 @@
+// app/auth/page.tsx
 "use client";
 import React, { useActionState, useState } from "react";
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
@@ -37,11 +38,18 @@ export default function AuthForm() {
                 <div className="w-full max-w-4xl bg-white shadow-xl rounded-3xl flex flex-col md:flex-row overflow-hidden relative">
 
                     {/* Form Section */}
-                    <div className={`w-full md:w-1/2 p-8 flex flex-col justify-center transition-all duration-700
-            ${animating ? "opacity-50 translate-x-4" : "opacity-100 translate-x-0"}`}>
-                        <h2 className="text-3xl font-bold text-gray-700 text-center mb-6">
-                            {isLogin ? "Login" : "Register"}
-                        </h2>
+                    <div
+  className={`w-full md:w-1/2 
+    flex flex-col justify-center transition-all duration-700
+    ${animating ? "opacity-50 translate-x-4" : "opacity-100 translate-x-0"}
+    ${isLogin 
+        ? "p-8 min-h-[300px]"   // کادر Login = همان اندازه قبلی
+        : "p-4 max-h-[450px] "}  // کادر Register = کوچکتر + بدون اسکرول صفحه
+  `}
+>
+  <h2 className="text-3xl font-bold text-gray-700 text-center mb-2">
+    {isLogin ? "Login" : "Register"}
+  </h2>
 
                         {/* Error Message */}
                         {currentState?.error && (
@@ -142,7 +150,7 @@ export default function AuthForm() {
                             </p>
                         )}
 
-                        <p className="text-center text-gray-600 mt-6">
+                        <p className="text-center text-gray-600 mt-0">
                             {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
                             <button
                                 onClick={handleToggle}

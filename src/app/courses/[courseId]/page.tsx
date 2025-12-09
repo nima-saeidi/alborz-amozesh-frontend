@@ -1,4 +1,3 @@
-
 // app/courses/[courseld]/page.tsx
 "use client";
 
@@ -84,6 +83,10 @@ export default function CoursePage({ params }: { params: { courseld: string } })
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // ===== new state for enroll action =====
+  const [enrollLoading, setEnrollLoading] = useState(false);
+  // =======================================
+
   useEffect(() => {
     const fetchCourse = async () => {
       try {
@@ -109,6 +112,83 @@ export default function CoursePage({ params }: { params: { courseld: string } })
     fetchCourse();
   }, [params.courseld]);
 
+  // ===== Helper: get student id (tries localStorage, otherwise prompt) =====
+  const getStudentId = (): number | null => {
+    try {
+      const idStr = typeof window !== "undefined"
+        ? (localStorage.getItem("studentId") || localStorage.getItem("userId") || "")
+        : "";
+      if (idStr) {
+        const n = Number(idStr);
+        if (!isNaN(n)) return n;
+      }
+      // fallback: ask user (temporary) — replace with actual auth integration if available
+      if (typeof window !== "undefined") {
+        const promptId = window.prompt("لطفا شناسه (ID) دانشجو را وارد کنید:");
+        if (promptId) {
+          const n = Number(promptId);
+          if (!isNaN(n)) return n;
+        }
+      }
+    } catch (e) {
+      console.error("Error getting student id:", e);
+    }
+    return null;
+  };
+  // ======================================================================
+
+  // ===== enroll function -> POST /student/enroll/ =====
+  const enrollStudent = async () => {
+    if (!course) {
+      alert("اطلاعات دوره در دسترس نیست.");
+      return;
+    }
+
+    const studentId = getStudentId();
+    if (!studentId) {
+      alert("شناسه دانشجو پیدا نشد. برای ادامه لطفا شناسه را در localStorage ذخیره کنید یا وارد شوید.");
+      return;
+    }
+
+    setEnrollLoading(true);
+    try {
+      const payload = {
+        student: studentId,
+        course: course.id,
+        // paid, grade, score می‌توانند حذف یا مقدار null باشند؛ در اینجا فقط فیلدهای ضروری ارسال می‌شود
+      };
+
+      const res = await fetch("http://185.208.175.233:5000/student/enroll/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.status === 201 || res.ok) {
+        const data = await res.json();
+        // موفقیت: می‌توانیم پیام نشان دهیم یا کاربر را به داشبورد هدایت کنیم
+        alert("ثبت‌نام با موفقیت انجام شد.");
+        console.log("enroll response:", data);
+      } else {
+        // خطا: نمایش پیام با متن برگشتی در صورت وجود
+        let errText = `خطا در ثبت‌نام. وضعیت: ${res.status}`;
+        try {
+          const errBody = await res.json();
+          errText += ` — ${JSON.stringify(errBody)}`;
+        } catch (e) {}
+        alert(errText);
+      }
+    } catch (err) {
+      console.error("Error enrolling student:", err);
+      alert("خطا در ارسال درخواست ثبت‌نام. اتصال به سرور را بررسی کنید.");
+    } finally {
+      setEnrollLoading(false);
+    }
+  };
+  // ===================================================
+
   if (loading) return <p>در حال بارگذاری...</p>;
   if (!course) return <p>دوره‌ای یافت نشد.</p>;
 
@@ -126,8 +206,14 @@ export default function CoursePage({ params }: { params: { courseld: string } })
             <h2 className="text-3xl font-extrabold text-orange-600 mb-6 text-center drop-shadow-sm">
               ۵۹,۹۹۹,۰۰۰ تومان
             </h2>
-            <button className="w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-[1.03] shadow-md">
-              ثبت نام
+            <button
+              onClick={enrollStudent}
+              disabled={enrollLoading}
+              className={`w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-[1.03] shadow-md ${
+                enrollLoading ? "opacity-60 cursor-not-allowed" : ""
+              }`}
+            >
+              {enrollLoading ? "در حال ثبت‌نام..." : "ثبت نام"}
             </button>
           </div>
 
