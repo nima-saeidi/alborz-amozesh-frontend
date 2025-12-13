@@ -1,4 +1,4 @@
-// components/ui/image-upload.tsx
+// components/image-upload.tsx
 
 "use client";
 

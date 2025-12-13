@@ -21,35 +21,35 @@ interface Course {
 
 export default function CoursesListPage() {
   const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await fetch("http://185.208.175.233:5000/courses/");
+        // ✅ استفاده از API داخلی Next.js
+        const res = await fetch("/api/courses/");
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
         const data: { results: Course[] } = await res.json();
 
-        let formattedCourses: Course[] = [];
+        const formattedCourses: Course[] = (data.results || []).map((course) => ({
+          id: course.id,
+          title: course.title || "بدون عنوان",
+          short_description: course.short_description,
+          description: course.description,
+          cost: course.cost,
+          discount_price: course.discount_price,
+          start_date: course.start_date,
+          end_date: course.end_date,
+          total_students: course.total_students,
+          rating_avg: course.rating_avg,
+          teacher: course.teacher,
+          logo: course.logo,
+        }));
 
-        if (data.results && data.results.length > 0) {
-          formattedCourses = data.results.map((course) => ({
-            id: course.id,
-            title: course.title || "بدون عنوان",
-            short_description: course.short_description,
-            description: course.description,
-            cost: course.cost,
-            discount_price: course.discount_price,
-            start_date: course.start_date,
-            end_date: course.end_date,
-            total_students: course.total_students,
-            rating_avg: course.rating_avg,
-            teacher: course.teacher,
-            logo: course.logo,
-          }));
-        } else {
-          // fallback داده تستی با متن فارسی
-          formattedCourses = [
+        // fallback اگر داده‌ای خالی بود
+        if (formattedCourses.length === 0) {
+          setCourses([
             {
               id: 1,
               title: "دوره تستی هوش مصنوعی",
@@ -64,10 +64,10 @@ export default function CoursesListPage() {
               teacher: 1,
               logo: "https://via.placeholder.com/300x150",
             },
-          ];
+          ]);
+        } else {
+          setCourses(formattedCourses);
         }
-
-        setCourses(formattedCourses);
       } catch (err) {
         console.error("Error fetching courses:", err);
         // fallback وقتی fetch شکست خورد
@@ -87,11 +87,15 @@ export default function CoursesListPage() {
             logo: "https://via.placeholder.com/300x150",
           },
         ]);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCourses();
   }, []);
+
+  if (loading) return <div className="p-4">در حال بارگذاری دوره‌ها...</div>;
 
   return (
     <div className="my-[50px] mb-10 flex-grow grid justify-items-center grid-flow-row grid-cols-[repeat(auto-fit,minmax(362px,1fr))] gap-x-8 gap-y-9">
@@ -106,4 +110,3 @@ export default function CoursesListPage() {
     </div>
   );
 }
-
