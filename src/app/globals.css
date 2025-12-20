@@ -121,54 +121,56 @@
   }
 }
 @keyframes stripes {
-    from {
-        background-position: 0 0;
-    }
-    to {
-        background-position: 40px 0;
-    }
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 40px 0;
+  }
 }
 
 @layer utilities {
-    .animate-stripes {
-        animation: stripes 1s linear infinite;
-    }
+  .animate-stripes {
+    animation: stripes 1s linear infinite;
+  }
 }
 @theme {
-    --animate-wiggle: wiggle 12s cubic-bezier(0.4, 0, 0.2, 1) infinite both;
-    @keyframes wiggle {
-      0% {
-        transform: rotate(0deg);
-      }
-      5% {
-        transform: rotate(-10deg);
-      }
-      10% {
-        transform: rotate(10deg);
-      }
-      15% {
-        transform: rotate(-6deg);
-      }
-      20% {
-        transform: rotate(6deg);
-      }
-      25% {
-        transform: rotate(-3deg);
-      }
-      30% {
-        transform: rotate(3deg);
-      }
-      35% {
-        transform: rotate(0deg);
-      }
-      36%, 100% {
-        transform: rotate(0deg);
-      }
+  --animate-wiggle: wiggle 12s cubic-bezier(0.4, 0, 0.2, 1) infinite both;
+  @keyframes wiggle {
+    0% {
+      transform: rotate(0deg);
     }
+    5% {
+      transform: rotate(-10deg);
+    }
+    10% {
+      transform: rotate(10deg);
+    }
+    15% {
+      transform: rotate(-6deg);
+    }
+    20% {
+      transform: rotate(6deg);
+    }
+    25% {
+      transform: rotate(-3deg);
+    }
+    30% {
+      transform: rotate(3deg);
+    }
+    35% {
+      transform: rotate(0deg);
+    }
+    36%,
+    100% {
+      transform: rotate(0deg);
+    }
+  }
 }
 
 /* ✅ فقط جلوگیری از اسکرول افقی، بدون حذف dots یا عناصر اسلایدر */
-html, body {
+html,
+body {
   max-width: 100vw;
   overflow-x: hidden;
 }
@@ -182,4 +184,67 @@ html, body {
 .slick-track {
   display: flex;
   align-items: stretch;
+}
+
+@theme {
+  /* Color  */
+  /* --color-main: #1e3a8a;
+  --color-second: #3b82f6;
+  --color-third: #99a7cf;
+  --color-button: #f97316;
+  --color-gray: #ffffff;
+  --color-second-gray: #eaf0fe;
+  --color-success: #34c759;
+  --color-failed: #ff3b30; */
+
+  --font-yekan-black: "Yekan Black", sans-serif;
+  --font-yekan-bold: "Yekan Bold", sans-serif;
+  --font-yekan-extraback: "Yekan ExtraBlack", sans-serif;
+  --font-yekan-extrabold: "Yekan ExtraBold", sans-serif;
+  --font-yekan-light: "Yekan Light", sans-serif;
+  --font-yekan-regular: "Yekan Regular", sans-serif;
+  --font-yekan-semibold: "Yekan SemiBold", sans-serif;
+  --font-yekan-thin: "Yekan Thin", sans-serif;
+}
+@layer base {
+  @font-face {
+    font-family: "Yekan Black";
+    src: url("/Fonts/YekanBakhFaNum-Black.woff2") format("truetype");
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Yekan Bold";
+    src: url("/Fonts/YekanBakhFaNum-Bold.woff2") format("truetype");
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Yekan ExtraBlack";
+    src: url("/Fonts/YekanBakhFaNum-ExtraBlack.woff2") format("truetype");
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Yekan ExtraBold";
+    src: url("/Fonts/YekanBakhFaNum-ExtraBold.woff2") format("truetype");
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Yekan Light";
+    src: url("/Fonts/YekanBakhFaNum-Light.woff2") format("truetype");
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Yekan Regular";
+    src: url("/Fonts/YekanBakhFaNum-Regular.woff2") format("truetype");
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Yekan SemiBold";
+    src: url("/Fonts/YekanBakhFaNum-SemiBold.woff2") format("truetype");
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Yekan Thin";
+    src: url("/Fonts/YekanBakhFaNum-Thin.woff2") format("truetype");
+    font-display: swap;
+  }
 }

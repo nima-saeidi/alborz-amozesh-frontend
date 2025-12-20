@@ -54,7 +54,7 @@ export default function Home() {
             <HeroSection/>
 
             {/* 🔹 مسیر یادگیری */}
-            <section className="w-full py-16 bg-gradient-to-b from-orange-50 to-white">
+            <section className="w-full py-16 bg-linear-to-b from-orange-50 to-white">
                 <div className="max-w-6xl mx-auto px-6">
                     <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-10">
                         مسیر یادگیری شما

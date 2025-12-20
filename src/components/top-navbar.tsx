@@ -20,7 +20,7 @@ function CardForCourses({onMouseEnter, active}: CardForCoursesProps) {
     return (
         <div onMouseEnter={onMouseEnter}
              className={cn("w-full h-[120px] hover:bg-black/80 hover:text-white hover:border-gray-800 duration-150 border-gray-500 border rounded-[10px] flex justify-center items-center cursor-pointer", active && "bg-black/80 text-white")}>
-            <div className="w-full mx-5 h-[90px] flex flex-col gap-[10px]">
+            <div className="w-full mx-5 h-[90px] flex flex-col gap-2.5">
                 <div className="w-full h-[52px] flex justify-between">
                     <div className="w-[52px] h-[52px] flex justify-center items-center">
                         <HugeiconsIcon
@@ -30,7 +30,7 @@ function CardForCourses({onMouseEnter, active}: CardForCoursesProps) {
                             strokeWidth={1.5}
                         />
                     </div>
-                    <div className="h-full  flex gap-[20px] justify-end">
+                    <div className="h-full  flex gap-5 justify-end">
                         <div className="h-full flex items-center font-semibold text-[18px] lg:text-[20px] select-none">
                             دوره های آموزشی
                         </div>
@@ -44,7 +44,7 @@ function CardForCourses({onMouseEnter, active}: CardForCoursesProps) {
                         </div>
                     </div>
                 </div>
-                <div className="w-full text-[14px] lg:text-[16px] h-[28px] flex justify-end select-none">
+                <div className="w-full text-[14px] lg:text-[16px] h-7 flex justify-end select-none">
                     ورود به دنیای حرفه ای تکنولوژی
                 </div>
             </div>
@@ -78,21 +78,21 @@ function CourseInfoBanner({children}: CourseInfoBannerProps) {
                     <span className="text-xl text text-black">ورود به دنیای حرفه ای تکنولوژی</span>
                 </div>
                 <div className="flex flex-col">
-                    <div className="flex flex-row-reverse items-center gap-2.5 h-[40px]">
+                    <div className="flex flex-row-reverse items-center gap-2.5 h-10">
                         <HugeiconsIcon icon={CheckmarkSquare02Icon}
                                        color={"#196B00"}
                                        fill={"#BFFFA3"}
                                        strokeWidth={1.5}/>
                         <div>آموزش همه تخصصی</div>
                     </div>
-                    <div className="flex flex-row-reverse  items-center gap-2.5 h-[40px]">
+                    <div className="flex flex-row-reverse  items-center gap-2.5 h-10">
                         <HugeiconsIcon icon={CheckmarkSquare02Icon}
                                        color={"#196B00"}
                                        fill={"#BFFFA3"}
                                        strokeWidth={1.5}/>
                         <div>یادگیری جمعی</div>
                     </div>
-                    <div className="flex flex-row-reverse items-center gap-2.5 h-[40px]">
+                    <div className="flex flex-row-reverse items-center gap-2.5 h-10">
                         <HugeiconsIcon icon={CheckmarkSquare02Icon}
                                        color={"#196B00"}
                                        fill={"#BFFFA3"}
@@ -123,7 +123,7 @@ function PopoverInnerContent() {
                     {show === 4 && <CourseInfoBanner key="4">Content 4</CourseInfoBanner>}
                 </AnimatePresence>
             </div>
-            <span className="hidden lg:block w-[1px] h-[340px] bg-black/20"></span>
+            <span className="hidden lg:block w-px h-[340px] bg-black/20"></span>
             <div className="w-[300px] lg:w-[380px] h-[570px] rounded-[10px] flex flex-col gap-[30px]">
                 {/*Card component for course type*/}
                 <CardForCourses onMouseEnter={() => setShow(1)} active={show === 1}/>
@@ -142,7 +142,7 @@ export default function TopNavbar() {
         <div className="flex justify-between items-center h-[100px] w-full">
             <div className="hidden m-5 md:w-[200px] h-full md:flex justify-center items-center">
                 <Link
-                    className=" h-[60px] w-full flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px]"
+                    className=" h-[60px] w-full flex justify-center items-center bg-[#FF8E50] text-black font-bold hover:bg-black hover:text-[#FF8E50] hover:border-[#FF8E50] hover:border-4 duration-200  rounded-[10px] font-yekan-bold"
                     href="/auth"
                 >
                     ورود / عضویت
@@ -159,11 +159,11 @@ export default function TopNavbar() {
                             className="flex flex-col w-full justify-center items-center cursor-pointer"
                             onClick={() => setIsOpen(!isOpen)}
                         >
-                            <h1 className="select-none">دوره های آموزشی</h1>
+                            <h1 className="select-none font-yekan-regular">دوره های آموزشی</h1>
                             {isOpen ? <ChevronUp /> : <ChevronDown />}
                         </div>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[330px] lg:w-[1024px] h-[600px] bg-white/50 backdrop-blur-2xl">
+                    <PopoverContent className="w-[330px] lg:w-5xl h-[600px] bg-white/50 backdrop-blur-2xl">
                         <PopoverInnerContent />
                     </PopoverContent>
                 </Popover>

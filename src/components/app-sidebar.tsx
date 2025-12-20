@@ -55,7 +55,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                             {data.navMain.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url} className="font-medium flex flex-row-reverse">
+                                        <a href={item.url} className="font-yekan-regular flex flex-row-reverse">
                                             {item.title}
                                         </a>
                                     </SidebarMenuButton>
