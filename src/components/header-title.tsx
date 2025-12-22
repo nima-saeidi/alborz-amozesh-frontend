@@ -50,7 +50,7 @@ export default function HeaderTitle() {
 
     return (
         <h1
-            className={`mr-8 text-xl transition-all duration-500 ${
+            className={`mr-8 text-xl font-yekan-regular transition-all duration-500 ${
                 fadeState === "fade-in"
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 -translate-y-1"

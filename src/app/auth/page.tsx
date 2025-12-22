@@ -1,4 +1,3 @@
-// app/auth/page.tsx
 "use client";
 import React, { useActionState, useState } from "react";
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
@@ -13,12 +12,10 @@ export default function AuthForm() {
     { success: false }
   );
 
-
   const [registerState, registerFormAction, registerPending] = useActionState(
     registerAction,
     { success: false }
   );
-
 
   const handleToggle = () => {
     setAnimating(true);
@@ -44,9 +41,7 @@ export default function AuthForm() {
     flex flex-col justify-center transition-all duration-700
     ${animating ? "opacity-50 translate-x-4" : "opacity-100 translate-x-0"}
     ${
-      isLogin
-        ? "p-8 min-h-[300px]" 
-        : "p-4 max-h-[450px] "
+      isLogin ? "p-8 min-h-[300px]" : "p-4 max-h-[450px] "
     }  // کادر Register = کوچکتر + بدون اسکرول صفحه
   `}
           >

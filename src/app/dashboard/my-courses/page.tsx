@@ -70,14 +70,11 @@ export default function MyCoursesPage() {
   ======================= */
   const fetchCourses = useCallback(async () => {
     try {
-      const res = await fetch(
-        "http://185.208.175.233:5000/student/invoices/",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await fetch("http://185.208.175.233:5000/student/invoices/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const data = await res.json();
       setCourses(data.results || []);
@@ -93,15 +90,14 @@ export default function MyCoursesPage() {
   ======================= */
   const fetchTeacherCourses = useCallback(async () => {
     try {
-      const res = await fetch(
-        "http://185.208.175.233:5000/teacher/courses/",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await fetch("http://185.208.175.233:5000/teacher/courses/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = await res.json();
+      console.log(data);
+
       setTeacherCourses(data || []);
     } catch (err) {
       console.error("Error fetching teacher courses:", err);

@@ -26,26 +26,28 @@ export default function CoursesListPage() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        // ✅ استفاده از API داخلی Next.js
         const res = await fetch("/api/courses/");
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
         const data: { results: Course[] } = await res.json();
+        console.log(data);
 
-        const formattedCourses: Course[] = (data.results || []).map((course) => ({
-          id: course.id,
-          title: course.title || "بدون عنوان",
-          short_description: course.short_description,
-          description: course.description,
-          cost: course.cost,
-          discount_price: course.discount_price,
-          start_date: course.start_date,
-          end_date: course.end_date,
-          total_students: course.total_students,
-          rating_avg: course.rating_avg,
-          teacher: course.teacher,
-          logo: course.logo,
-        }));
+        const formattedCourses: Course[] = (data.results || []).map(
+          (course) => ({
+            id: course.id,
+            title: course.title || "بدون عنوان",
+            short_description: course.short_description,
+            description: course.description,
+            cost: course.cost,
+            discount_price: course.discount_price,
+            start_date: course.start_date,
+            end_date: course.end_date,
+            total_students: course.total_students,
+            rating_avg: course.rating_avg,
+            teacher: course.teacher,
+            logo: course.logo,
+          })
+        );
 
         // fallback اگر داده‌ای خالی بود
         if (formattedCourses.length === 0) {
@@ -98,7 +100,7 @@ export default function CoursesListPage() {
   if (loading) return <div className="p-4">در حال بارگذاری دوره‌ها...</div>;
 
   return (
-    <div className="my-[50px] mb-10 flex-grow grid justify-items-center grid-flow-row grid-cols-[repeat(auto-fit,minmax(362px,1fr))] gap-x-8 gap-y-9">
+    <div className="my-[50px] mb-10 grow grid justify-items-center grid-flow-row grid-cols-[repeat(auto-fit,minmax(362px,1fr))] gap-x-8 gap-y-9">
       {courses.map((course) => (
         <CourseCard
           key={course.id}
