@@ -7,8 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import ImageUpload from "@/components/image-upload";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
-// اینجا اینترفیس CreateCoursePayload را قرار دادیم
 interface CreateCoursePayload {
   title: string;
   description?: string;
@@ -17,14 +17,14 @@ interface CreateCoursePayload {
   level?: string;
   cost?: string;
   discount_price?: string;
-  tags?: string; // کاما جدا شده
+  tags?: string;
   requirements?: string;
-  start_date?: string; // YYYY-MM-DD
-  end_date?: string;   // YYYY-MM-DD
+  start_date?: string;
+  end_date?: string;
   limit_students?: number;
   rating_avg?: string;
-  logo?: string | null; // URL یا base64
-  teacher: number; // شناسه مدرس
+  logo?: string | null;
+  teacher: number;
 }
 
 export default function CreateCoursePage() {
@@ -48,6 +48,7 @@ export default function CreateCoursePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!token) return alert("توکن پیدا نشد!");
 
     const payload: CreateCoursePayload = {
       title,
@@ -64,32 +65,31 @@ export default function CreateCoursePage() {
       limit_students: limitStudents,
       rating_avg: ratingAvg,
       logo,
-      teacher: 1 // اگر شناسه مدرس ثابت است، در غیر اینصورت از token decode کنید
+      teacher: 1,
     };
 
-    try {
-      const res = await fetch("http://185.208.175.233:5000/teacher/courses/create/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(payload)
-      });
+   try {
+  const res = await axios.post(
+    "http://185.208.175.233:5000/teacher/courses/create/",
+    payload,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
 
-      if (res.ok) {
-        alert("دوره با موفقیت ایجاد شد ✅");
-        router.push("/dashboard/my-courses");
-      } else {
-        const err = await res.json();
-        console.error(err);
-        alert("خطا در ایجاد دوره ❌");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("خطا در اتصال به سرور ❌");
-    }
-  };
+  if (res.status === 201) {
+    alert("دوره با موفقیت ایجاد شد ✅");
+    router.push("/dashboard/my-courses");
+  }
+} catch (err: unknown) {
+  console.error(err);
+
+  // بررسی اینکه err از نوع AxiosError هست یا نه
+  if (axios.isAxiosError(err)) {
+    alert(err.response?.data?.message || "خطا در ایجاد دوره ❌");
+  } else {
+    alert("خطای ناشناخته ❌");
+  }
+}}
+
 
   return (
     <form className="flex flex-col gap-4 p-4" onSubmit={handleSubmit}>
@@ -99,11 +99,7 @@ export default function CreateCoursePage() {
       <Input value={title} onChange={e => setTitle(e.target.value)} required />
 
       <Label>توضیحات</Label>
-      <textarea
-        className="border rounded-md p-2 w-full"
-        value={description}
-        onChange={e => setDescription(e.target.value)}
-      />
+      <textarea className="border rounded-md p-2 w-full" value={description} onChange={e => setDescription(e.target.value)} />
 
       <Label>توضیح کوتاه</Label>
       <Input value={shortDescription} onChange={e => setShortDescription(e.target.value)} />
@@ -133,11 +129,7 @@ export default function CreateCoursePage() {
       <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
 
       <Label>حداکثر دانشجو</Label>
-      <Input
-        type="number"
-        value={limitStudents || ""}
-        onChange={e => setLimitStudents(Number(e.target.value))}
-      />
+      <Input type="number" value={limitStudents || ""} onChange={e => setLimitStudents(Number(e.target.value))} />
 
       <Label>امتیاز متوسط</Label>
       <Input value={ratingAvg} onChange={e => setRatingAvg(e.target.value)} />

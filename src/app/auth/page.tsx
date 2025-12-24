@@ -90,7 +90,7 @@ export default function AuthForm() {
                                 <input
                                     type="email"
                                     name="email"
-                                    placeholder="Email"
+                                    placeholder="ایمیل"
                                     className="w-full px-4 py-3 border rounded-lg pl-10 focus:ring-2 focus:ring-orange-400 focus:outline-none"
                                     required
                                     disabled={isPending}
@@ -102,7 +102,7 @@ export default function AuthForm() {
                                 <input
                                     type="password"
                                     name="password"
-                                    placeholder="Password"
+                                    placeholder="رمز"
                                     className="w-full px-4 py-3 border rounded-lg pl-10 focus:ring-2 focus:ring-orange-400 focus:outline-none"
                                     required
                                     disabled={isPending}
@@ -114,7 +114,7 @@ export default function AuthForm() {
                                     <input
                                         type="password"
                                         name="password2"
-                                        placeholder="Confirm Password"
+                                        placeholder="تکرار رمز"
                                         className="w-full px-4 py-3 border rounded-lg pl-10 focus:ring-2 focus:ring-orange-400 focus:outline-none"
                                         required
                                         disabled={isPending}

@@ -1,5 +1,4 @@
 // src/app/dashboard/my-courses/[courseId]/edit/page.tsx
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,8 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import ImageUpload from "@/components/image-upload";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
-// تعریف تایپ برای Course
 interface Course {
   id: number;
   title: string;
@@ -28,8 +27,6 @@ interface Course {
   logo?: string | null;
   teacher: number;
 }
-
-
 
 export default function EditCoursePage({ params }: { params: { courseId: string } }) {
   const router = useRouter();
@@ -53,15 +50,13 @@ export default function EditCoursePage({ params }: { params: { courseId: string 
   const [ratingAvg, setRatingAvg] = useState("");
   const [logo, setLogo] = useState<string | null>(null);
 
-  // دریافت اطلاعات دوره
   const fetchCourse = async () => {
     if (!token) return;
     try {
-      const res = await fetch(
-        `http://185.208.175.233:5000/teacher/courses/${params.courseId}/`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const data: Course = await res.json();
+      const res = await axios.get(`http://185.208.175.233:5000/teacher/courses/${params.courseId}/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data: Course = res.data;
       setCourse(data);
 
       setTitle(data.title || "");
@@ -86,13 +81,11 @@ export default function EditCoursePage({ params }: { params: { courseId: string 
     }
   };
 
-  useEffect(() => {
-    fetchCourse();
-  }, []);
+  useEffect(() => { fetchCourse(); }, []);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!course) return;
+    if (!course || !token) return;
 
     const payload: Course = {
       id: course.id,
@@ -110,47 +103,33 @@ export default function EditCoursePage({ params }: { params: { courseId: string 
       limit_students: limitStudents,
       rating_avg: ratingAvg,
       logo,
-      teacher: course.teacher
+      teacher: course.teacher,
     };
 
     try {
-      const res = await fetch(
+      const res = await axios.put(
         `http://185.208.175.233:5000/teacher/courses/${params.courseId}/update/`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify(payload)
-        }
+        payload,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      if (res.ok) {
+      if (res.status === 200) {
         alert("دوره با موفقیت به‌روز شد ✅");
         router.push(`/dashboard/my-courses/${params.courseId}`);
-      } else {
-        const err = await res.json();
-        console.error(err);
-        alert("خطا در به‌روز رسانی ❌");
       }
     } catch (err) {
       console.error(err);
-      alert("خطا در اتصال به سرور ❌");
+      alert("خطا در به‌روز رسانی ❌");
     }
   };
 
   const handleDelete = async () => {
-    if (!confirm("آیا مطمئن هستید می‌خواهید این دوره را حذف کنید؟")) return;
-    if (!token) return;
+    if (!token || !confirm("آیا مطمئن هستید می‌خواهید این دوره را حذف کنید؟")) return;
 
     try {
-      const res = await fetch(
+      const res = await axios.delete(
         `http://185.208.175.233:5000/teacher/courses/${params.courseId}/delete/`,
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` }
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       if (res.status === 204) {
@@ -173,11 +152,7 @@ export default function EditCoursePage({ params }: { params: { courseId: string 
       <Input value={title} onChange={e => setTitle(e.target.value)} required />
 
       <Label>توضیحات</Label>
-      <textarea
-        className="border rounded-md p-2 w-full"
-        value={description}
-        onChange={e => setDescription(e.target.value)}
-      />
+      <textarea className="border rounded-md p-2 w-full" value={description} onChange={e => setDescription(e.target.value)} />
 
       <Label>توضیح کوتاه</Label>
       <Input value={shortDescription} onChange={e => setShortDescription(e.target.value)} />
@@ -207,26 +182,17 @@ export default function EditCoursePage({ params }: { params: { courseId: string 
       <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
 
       <Label>حداکثر دانشجو</Label>
-      <Input
-        type="number"
-        value={limitStudents || ""}
-        onChange={e => setLimitStudents(Number(e.target.value))}
-      />
+      <Input type="number" value={limitStudents || ""} onChange={e => setLimitStudents(Number(e.target.value))} />
 
       <Label>امتیاز متوسط</Label>
       <Input value={ratingAvg} onChange={e => setRatingAvg(e.target.value)} />
 
       <Label>لوگو دوره</Label>
-      <ImageUpload
-        initialImage={logo || undefined}
-        onFileSelect={file => setLogo(file ? URL.createObjectURL(file) : null)}
-      />
+      <ImageUpload initialImage={logo || undefined} onFileSelect={file => setLogo(file ? URL.createObjectURL(file) : null)} />
 
       <div className="flex gap-2">
         <Button type="submit">به‌روز رسانی دوره</Button>
-        <Button type="button" variant="destructive" onClick={handleDelete}>
-          حذف دوره
-        </Button>
+        <Button type="button" variant="destructive" onClick={handleDelete}>حذف دوره</Button>
       </div>
     </form>
   );

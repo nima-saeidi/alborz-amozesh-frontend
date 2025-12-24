@@ -155,7 +155,7 @@ export default function CoursePage({ params }: { params: { courseld: string } })
       const payload = {
         student: studentId,
         course: course.id,
-        // paid, grade, score می‌توانند حذف یا مقدار null باشند؛ در اینجا فقط فیلدهای ضروری ارسال می‌شود
+        
       };
 
       const res = await fetch("http://185.208.175.233:5000/student/enroll/", {
