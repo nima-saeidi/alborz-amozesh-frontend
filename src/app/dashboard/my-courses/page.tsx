@@ -11,16 +11,31 @@ export default function MyCoursesPage() {
   const [teacherCourses, setTeacherCourses] = useState<TeacherCourse[]>([]);
   const [teacherLoading, setTeacherLoading] = useState(true);
 
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
   const fetchTeacherCourses = useCallback(async () => {
     try {
+      // اگر می‌خوای از سرویس axios داخلی استفاده کنی:
       const data = await teacherCoursesService.list();
       setTeacherCourses(data);
+
+      // یا اگر می‌خوای مستقیم fetch بکنی:
+      /*
+      const res = await fetch("http://185.208.175.233:5000/teacher/courses/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      setTeacherCourses(data || []);
+      */
     } catch (err) {
       console.error("Error fetching teacher courses:", err);
     } finally {
       setTeacherLoading(false);
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     fetchTeacherCourses();

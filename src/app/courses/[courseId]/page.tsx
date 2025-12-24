@@ -21,17 +21,27 @@ interface Course {
 }
 
 const defaultSessions: CourseSession[] = [
-  { id: 1, title: "ورود به دنیای هوش مصنوعی", description: "توضیحات ورود به دنیای هوش مصنوعی" },
-  { id: 2, title: "الگوریتم‌های یادگیری ماشین", description: "توضیحات الگوریتم‌های یادگیری ماشین" },
+  {
+    id: 1,
+    title: "ورود به دنیای هوش مصنوعی",
+    description: "توضیحات ورود به دنیای هوش مصنوعی",
+  },
+  {
+    id: 2,
+    title: "الگوریتم‌های یادگیری ماشین",
+    description: "توضیحات الگوریتم‌های یادگیری ماشین",
+  },
   { id: 3, title: "تهدیدات سایبری", description: "توضیحات تهدیدات سایبری" },
   { id: 4, title: "ابزارهای امنیتی", description: "توضیحات ابزارهای امنیتی" },
 ];
 
 const Syllabus = ({ sessions }: { sessions: CourseSession[] }) => {
-  const topics = sessions.length ? sessions.map((s) => s.title) : defaultSessions.map((s) => s.title);
+  const topics = sessions.length
+    ? sessions.map((s) => s.title)
+    : defaultSessions.map((s) => s.title);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const toggle = (index: number) => setOpenIndex(openIndex === index ? null : index);
-
+  const toggle = (index: number) =>
+    setOpenIndex(openIndex === index ? null : index);
 
   return (
     <div className="w-full">
@@ -42,7 +52,8 @@ const Syllabus = ({ sessions }: { sessions: CourseSession[] }) => {
       <div className="space-y-4 w-full">
         {topics.map((title, i) => {
           const isOpen = openIndex === i;
-          const description = sessions[i]?.description || defaultSessions[i]?.description;
+          const description =
+            sessions[i]?.description || defaultSessions[i]?.description;
           return (
             <div
               key={i}
@@ -67,7 +78,7 @@ const Syllabus = ({ sessions }: { sessions: CourseSession[] }) => {
                   isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="p-5 text-gray-700 text-sm border-t border-gray-200 bg-gradient-to-l from-orange-50/50 to-transparent text-right leading-relaxed animate-fadeIn">
+                <div className="p-5 text-gray-700 text-sm border-t border-gray-200 bg-linear-to-l from-orange-50/50 to-transparent text-right leading-relaxed animate-fadeIn">
                   توضیحات مربوط به این بخش از سرفصل در اینجا قرار می‌گیرد.
                 </div>
               </div>
@@ -79,7 +90,11 @@ const Syllabus = ({ sessions }: { sessions: CourseSession[] }) => {
   );
 };
 
-export default function CoursePage({ params }: { params: { courseld: string } }) {
+export default function CoursePage({
+  params,
+}: {
+  params: { courseld: string };
+}) {
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -90,16 +105,21 @@ export default function CoursePage({ params }: { params: { courseld: string } })
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const res = await fetch(`http://185.208.175.233:5000/courses/${params.courseld}/`);
+        const res = await fetch(
+          `http://185.208.175.233:5000/courses/${params.courseld}/`
+        );
+        
         if (!res.ok) throw new Error("Network response was not ok");
         const data: Course = await res.json();
+
         setCourse(data);
       } catch (err) {
         console.error("Error fetching course:", err);
         setCourse({
           id: 0,
           title: "دوره نمونه",
-          description: "این دوره با هدف آشنایی مدیران و متخصصان امنیت سایبری با نقش هوش مصنوعی در دفاع و حمله‌های سایبری طراحی شده است.",
+          description:
+            "این دوره با هدف آشنایی مدیران و متخصصان امنیت سایبری با نقش هوش مصنوعی در دفاع و حمله‌های سایبری طراحی شده است.",
           discount_price: "۵۹,۹۹۹,۰۰۰",
           cost: "۶۹,۹۹۹,۰۰۰",
           start_date: "۱۳۰۳/۰۲/۲۱",
@@ -115,9 +135,12 @@ export default function CoursePage({ params }: { params: { courseld: string } })
   // ===== Helper: get student id (tries localStorage, otherwise prompt) =====
   const getStudentId = (): number | null => {
     try {
-      const idStr = typeof window !== "undefined"
-        ? (localStorage.getItem("studentId") || localStorage.getItem("userId") || "")
-        : "";
+      const idStr =
+        typeof window !== "undefined"
+          ? localStorage.getItem("studentId") ||
+            localStorage.getItem("userId") ||
+            ""
+          : "";
       if (idStr) {
         const n = Number(idStr);
         if (!isNaN(n)) return n;
@@ -146,7 +169,9 @@ export default function CoursePage({ params }: { params: { courseld: string } })
 
     const studentId = getStudentId();
     if (!studentId) {
-      alert("شناسه دانشجو پیدا نشد. برای ادامه لطفا شناسه را در localStorage ذخیره کنید یا وارد شوید.");
+      alert(
+        "شناسه دانشجو پیدا نشد. برای ادامه لطفا شناسه را در localStorage ذخیره کنید یا وارد شوید."
+      );
       return;
     }
 
@@ -193,7 +218,7 @@ export default function CoursePage({ params }: { params: { courseld: string } })
   if (!course) return <p>دوره‌ای یافت نشد.</p>;
 
   return (
-    <main className="flex flex-col items-center px-4 md:px-12 py-12 bg-gradient-to-br from-orange-50 via-white to-orange-100 text-gray-900 min-h-screen relative overflow-hidden">
+    <main className="flex flex-col items-center px-4 md:px-12 py-12 bg-linear-to-br from-orange-50 via-white to-orange-100 text-gray-900 min-h-screen relative overflow-hidden">
       {/* افکت نور در پس‌زمینه */}
       <div className="absolute top-[-200px] right-[-200px] w-[400px] h-[400px] bg-orange-300/30 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-[-200px] left-[-200px] w-[400px] h-[400px] bg-yellow-200/20 rounded-full blur-3xl animate-pulse" />
@@ -209,7 +234,7 @@ export default function CoursePage({ params }: { params: { courseld: string } })
             <button
               onClick={enrollStudent}
               disabled={enrollLoading}
-              className={`w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-[1.03] shadow-md ${
+              className={`w-full bg-linear-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-[1.03] shadow-md ${
                 enrollLoading ? "opacity-60 cursor-not-allowed" : ""
               }`}
             >
@@ -218,60 +243,65 @@ export default function CoursePage({ params }: { params: { courseld: string } })
           </div>
 
           <div className="mt-8 space-y-3 text-gray-700 text-sm">
-            {(course.start_date ? [course.start_date] :Array(4)
-              .fill("۱۳۰۳/۰۲/۲۱"))
-              .map((date, i) => (
-                <div
-                  key={i}
-                  className="flex justify-between border-b border-gray-200 pb-2 hover:text-orange-500 transition-colors"
-                >
-                  <span>تاریخ شروع</span>
-                  <span className="font-medium">{date}</span>
-                </div>
-              ))}
+            {(course.start_date
+              ? [course.start_date]
+              : Array(4).fill("۱۳۰۳/۰۲/۲۱")
+            ).map((date, i) => (
+              <div
+                key={i}
+                className="flex justify-between border-b border-gray-200 pb-2 hover:text-orange-500 transition-colors"
+              >
+                <span>تاریخ شروع</span>
+                <span className="font-medium">{date}</span>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* ستون راست - بنر دوره */}
         <div className="w-full md:w-2/3 bg-white/70 backdrop-blur-md flex items-center justify-center rounded-2xl shadow-xl border border-gray-200 p-6  hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
-           {course.logo ? (
-            <img src={course.logo} alt={course.title} className="w-full h-auto rounded-xl" />
+          {course.logo ? (
+            <img
+              src={course.logo}
+              alt={course.title}
+              className="w-full h-auto rounded-xl"
+            />
           ) : (
-          <span className="text-gray-600 text-lg font-medium relative z-10">
-            تصویر یا بنر دوره
-          </span>
-           )}
-          <div className="absolute inset-0 bg-gradient-to-tr from-orange-200/30 to-transparent opacity-70" />
+            <span className="text-gray-600 text-lg font-medium relative z-10">
+              تصویر یا بنر دوره
+            </span>
+          )}
+          <div className="absolute inset-0 bg-linear-to-tr from-orange-200/30 to-transparent opacity-70" />
         </div>
       </section>
 
       {/* پایین - درباره دوره */}
       <section
-  dir="rtl"
-  className="w-full md:w-2/3 flex flex-col items-start p-8 text-lg text-right ml-auto"
->
-  <div className="mb-8 w-full">
-    <h3 className="text-2xl font-bold text-orange-600 mb-4 relative after:content-[''] after:block after:w-20 after:h-[3px] after:rounded-full after:mt-1 after:ml-auto">
-      درباره این دوره
-    </h3>
-    <p className="text-gray-800 leading-relaxed text-[15px]">
-      این دوره با هدف آشنایی مدیران و متخصصان امنیت سایبری با نقش هوش
-      مصنوعی در دفاع و حمله‌های سایبری طراحی شده است. شرکت‌کنندگان خواهند
-      آموخت که چگونه از الگوریتم‌های یادگیری ماشین و هوش مصنوعی برای تشخیص
-      تهدیدات، تحلیل بدافزارها و پاسخ خودکار به حمله‌ها استفاده کنند.
-      همچنین به جنبه‌های تاریک این فناوری از جمله حمله‌های مبتنی بر هوش
-      مصنوعی مانند دیپ‌فیک و بدافزارهای تطبیقی پرداخته می‌شود. این دوره
-      شامل مثال‌های واقعی، دموهای عملی و بررسی ابزارهای پیشرو مانند <br />
-      Darktrace و CrowdStrike
-      <br />
-      <br />
-      در پایان نقشه راهی برای ادغام هوش مصنوعی در استراتژی امنیت سازمانی
-      ارائه خواهد شد. مدت زمان این بوتکمپ ۸ ساعت است که در روز پنجشنبه ۱۳
-      آذرماه از ساعت ۹ تا ۱۷ به صورت حضوری برگزار خواهد شد.
-    <br />
-     {course.description}
-    </p>
-  </div>
+        dir="rtl"
+        className="w-full md:w-2/3 flex flex-col items-start p-8 text-lg text-right ml-auto"
+      >
+        <div className="mb-8 w-full">
+          <h3 className="text-2xl font-bold text-orange-600 mb-4 relative after:content-[''] after:block after:w-20 after:h-[3px] after:rounded-full after:mt-1 after:ml-auto">
+            درباره این دوره
+          </h3>
+          <p className="text-gray-800 leading-relaxed text-[15px]">
+            این دوره با هدف آشنایی مدیران و متخصصان امنیت سایبری با نقش هوش
+            مصنوعی در دفاع و حمله‌های سایبری طراحی شده است. شرکت‌کنندگان خواهند
+            آموخت که چگونه از الگوریتم‌های یادگیری ماشین و هوش مصنوعی برای تشخیص
+            تهدیدات، تحلیل بدافزارها و پاسخ خودکار به حمله‌ها استفاده کنند.
+            همچنین به جنبه‌های تاریک این فناوری از جمله حمله‌های مبتنی بر هوش
+            مصنوعی مانند دیپ‌فیک و بدافزارهای تطبیقی پرداخته می‌شود. این دوره
+            شامل مثال‌های واقعی، دموهای عملی و بررسی ابزارهای پیشرو مانند <br />
+            Darktrace و CrowdStrike
+            <br />
+            <br />
+            در پایان نقشه راهی برای ادغام هوش مصنوعی در استراتژی امنیت سازمانی
+            ارائه خواهد شد. مدت زمان این بوتکمپ ۸ ساعت است که در روز پنجشنبه ۱۳
+            آذرماه از ساعت ۹ تا ۱۷ به صورت حضوری برگزار خواهد شد.
+            <br />
+            {course.description}
+          </p>
+        </div>
 
         {/* سرفصل‌ها */}
         <Syllabus sessions={course.sessions || defaultSessions} />
